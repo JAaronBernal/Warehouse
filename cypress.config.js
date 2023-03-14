@@ -27,7 +27,7 @@ module.exports = defineConfig({
 
     // ruta donde tenemos los archivos features 
     //specPattern: "cypress/Ruta99/e2e/features/*.feature",
-    specPattern: "cypress/Selfservices/e2e/features/*.feature",
+    specPattern: "cypress/Warehouse/e2e/features/*.feature",
     // Pagina por default
     viewportWidth: 1400,
     viewportHeight: 900,

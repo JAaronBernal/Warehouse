@@ -26,3 +26,5 @@
 
 //upload file
 import 'cypress-file-upload';
+
+import 'cypress-iframe';
