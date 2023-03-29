@@ -11,10 +11,16 @@ Given("A user open the Warehouse page in {string} selected", (environment) => {
 
 });
 When("the user select the {string}", (station) => {
-    warehouse.station(station);
-    warehouse.hamburgerBtn();
-    warehouse.container();
+    warehouse.loginWarehouse(station);
 });
-Then("the user synchronizes the {string}", (fingerId) => {
+Then("the user synchronizes the {string} {string} {string} {string} {string} {string} {string} {string} {string}", (layout, numContainer, fingerID, lineHaul, newNameLineHaul,driver,idVehicle,destination,depTime) => {
+    warehouse.actLayout(layout);
+    warehouse.createContainer(numContainer);
+    warehouse.addContainer(fingerID);
+    //warehouse.addLineHaul(lineHaul);
+    //warehouse.editLineHaulEmpty(newNameLineHaul);
+    //warehouse.deletLineHaul();
+    //warehouse.regisVehicle(driver,idVehicle,destination,depTime);
+    
     
 });

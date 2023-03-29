@@ -7,4 +7,4 @@ Feature: New Masisive Load
 
     Examples: 
       |organization        | userName                       | password      |numOrders   |
-      |Massive Load Sandbox| mmhpruebas40@gmail.com       | 99Minutos.com |09guias.xlsx|
+      |Massive Load Sandbox| mmhpruebas40@gmail.com         | 99Minutos.com |09guias.xlsx|

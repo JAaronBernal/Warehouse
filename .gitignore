@@ -1,0 +1,27 @@
+# dependencies
+.reports/
+screenshots/
+videos/
+jsonlogs/
+jsonlogs/log.json
+jsonlogs/messages.ndjson
+downloads/
+fixtures/
+node_modules/
+
+
+# misc
+.DS_Store
+
+#Cypress
+*.log
+*.aes
+cypress/screenshots
+cypress/videos
+cypress/logs
+cypress/fixtures/profile.json
+cypress/fixtures/users.json
+.history
+.vscode
+env
+
