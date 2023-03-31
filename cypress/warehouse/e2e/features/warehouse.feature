@@ -7,4 +7,4 @@ Feature: Warehouse
 
     Examples: 
       |environment | station|layout         |numContainer|fingerID|lineHaul|newNameLineHaul|driver      |idVehicle|destination|depTime|
-      |Test        | MX5    |Layout-MX5.csv | 1          |TAE     |QA      |TAE            |Don Veloz   |PDT2434  |MX1        |27/03/2023|
+      |Test        | MX5    |Layout-MX5.csv | 1          |TAE     |QA2      |TAE            |Don Veloz   |PDT2434  |MX1        |27/03/2023|

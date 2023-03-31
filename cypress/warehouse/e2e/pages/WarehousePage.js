@@ -27,6 +27,7 @@ class LoginPage {
         btnEditCancel: () => cy.get('.css-1l89mu2 > .MuiButton-outlined'),
         btnDeletTheLineHaul: () => cy.get('#accept-button'),
         btnCancelTheLineHaul: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-outlined'),
+        
         //Driver
         btnRegistNewVehicle: () => cy.get('.css-ekpfb0 > .MuiButtonBase-root'),
         typeNewDriver: () => cy.get('.MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'),
@@ -44,8 +45,14 @@ class LoginPage {
         btnContainers: () => cy.get('[href="/containers"]'),
         typeFinger: () => cy.get('#scanner-input'),
         btnStartFingerId: () => cy.get('.MuiCardActions-root > .MuiButtonBase-root'),
+        btnPlusContainers: () => cy.get('.css-zdpt2t > .MuiButtonBase-root'),
+        typeScanContainers: () => cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input'),
+        btnCancelAddContainer: () =>cy.get('.css-1tcrf2f > .MuiButton-outlined'),
+        btnConfirmAddContainer: () =>cy.get('#accept-button'),
+
         //
         btnCreateContainers: () => cy.get(':nth-child(5) > .MuiListItem-root > .MuiButtonBase-root'),
+        
         //Layout
         btnModLayout: () => cy.get(':nth-child(6) > .MuiListItem-root > .MuiButtonBase-root'),
         btnLayoutDowload: ()  => cy.get('.css-1hqast7 > .MuiButtonBase-root'),
@@ -120,20 +127,72 @@ class LoginPage {
     }
 
     createContainer(numContainer){
+        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('ApiEdu')
         this.elements.hamburgerBtn().click();
         this.elements.btnCreateContainers().click();
         this.elements.btnContinueNoImp().click();
         this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
         this.elements.btnAcceptCreateCon().click();
+        
+        //cy.wait('@ApiEdu').its('data.createContainers.containers[0].id')
+        cy.wait('@ApiEdu').then(response => {
+            cy.log(response)
+        })
+        
 
+        //cy.get('@ApiEdu').then(request => {  
+            //var idScan = request.response.body.data.loginFinger.id 
+        //cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input').type(`${idScan}`);
+        //})
     }
 
-    addContainer(fingerID){
+    addContainer(fingerID,){
         cy.wait(2500);
+        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('ApiEdu')
         this.elements.hamburgerBtn().click();
         this.elements.btnContainers().click();
         this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
         this.elements.btnStartFingerId().click();
+        this.elements.btnPlusContainers().click();
+        //Suprim
+        //cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input').type(`8f231a6b-67aa-44b2-89f0-1413898c3ecd`);
+
+        //
+        
+        cy.wait('@ApiEdu').its('response.body.data.loginFinger.id') 
+        cy.get('@ApiEdu').then(request => {  
+            var idScan = request.response.body.data.loginFinger.id
+        cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input').type(`${idScan}`);
+        })
+        
+
+    
+    }
+
+    creatAndAddContainer(numContainer,fingerID){
+
+        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
+        this.elements.hamburgerBtn().click();
+        this.elements.btnCreateContainers().click();
+        this.elements.btnContinueNoImp().click();
+        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+        this.elements.btnAcceptCreateCon().click();
+        cy.wait('@IdContainer')
+            .its('response.body.data.createContainers.containers[0].id')
+            .then(response => {cy.log(response)})  
+        cy.get('@IdContainer').then(request =>{
+            const idContainer = request.response.body.data.createContainers.containers[0].id
+
+            this.elements.hamburgerBtn().click();
+            this.elements.btnContainers().click();
+            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
+            this.elements.btnStartFingerId().click();
+            this.elements.btnPlusContainers().click();
+            this.elements.typeScanContainers().type(`${idContainer}`);
+            this.elements.btnConfirmAddContainer().click();
+
+
+        })
     }
 
     addLineHaul(lineHaul){
