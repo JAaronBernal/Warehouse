@@ -61,5 +61,16 @@ class InductionPage {
     inductionSorting(numOrder){
         this.elements.scanPac().type(`${numOrder}{enter}`)
     }
+    inductionToWarehouse(station, numOrder){
+        cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')
+        this.elements.closeBanner().click();
+        this.elements.currentBtnStation().click();
+        cy.wait(1000)
+        this.elements.inputStation().type(`${station}`)
+        this.elements.firstOptionInput().click();
+        this.elements.btnChangeStation().click();
+        this.elements.btnConfirmChangeStation().click();
+        this.elements.station().should('have.text',station)
+    }
 }
 export default new InductionPage();
