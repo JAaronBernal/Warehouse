@@ -6,5 +6,9 @@ Feature: Induction
     Then user should induction a "<numOrder>"
 
     Examples: 
-      |environment | station|numOrder|
-      |Test        | MX5    |3530262004|
+      |environment | station|numOrder  | 
+      |Test        | MX4    ||
+      |Test        | MX4    ||
+      |Test        | MX4    |1539636465|
+      |Test        | MX4    |4233195803|
+     

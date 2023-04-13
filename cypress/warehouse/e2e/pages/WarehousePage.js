@@ -25,7 +25,26 @@ class WarehousePage {
         deletThisLineHaulTemp: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
         btnOpcionLineHaulTemp: () => cy.get(':nth-child(3) > .css-10b2cka > .css-1r9gd80 > #basic-button'),
         editThisLineHaulTemp: () => cy.get('.MuiList-root > [tabindex="-1"]'),
-        
+        //reedit
+        reEditThisLineHaul: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
+        reEditIdVehicle: () =>cy.get('#vehicleLicencePlates'),
+        reEditTypeDet: () => cy.get('.css-w7zgc7 > .MuiFormControl-root > .MuiInputBase-root'),
+        reEditSelctFirtOption: () => cy.get('#location-autocomplete-listbox'),
+        reEditDriver: () => cy.get('.css-og3as7 > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'),
+        reEditCloseBtn: () => cy.get('.css-1l89mu2 > .MuiButton-outlined'),
+        reEditEditBt: () => cy.get('.css-1l89mu2 > .MuiButton-contained'),
+
+        //Clean Line Haul
+        cleanLineHaul: () => cy.get('.MuiList-root > [tabindex="-1"]'),
+        cancelCleanBtn: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-outlined'),
+        confirmCleanBtn: () => cy.get('#accept-button'),
+
+        //LineHaul Scan
+        scanContainerLineHaul: () => cy.get('#scanner-input'),
+        transferPackLineHaul: () => cy.get('.css-1n8vnop > .MuiButton-outlined'),
+        letOutLineHaul: () =>  cy.get('.css-1n8vnop > .MuiButton-contained'),
+
+
 
         deletThisLineHaul: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
         editThisLineHaul: () => cy.get('.MuiList-root > [tabindex="-1"]'),
@@ -88,6 +107,7 @@ class WarehousePage {
         
 
         //
+        closeBtn: () => cy.get('.Toastify__close-button'),
         btnCreateContainers: () => cy.get(':nth-child(5) > .MuiListItem-root > .MuiButtonBase-root'),
         
         //Layout
@@ -229,6 +249,7 @@ class WarehousePage {
             this.elements.btnPlusContainers().click();
             this.elements.typeScanContainers().type(`${idContainer}`);
             this.elements.btnConfirmAddContainer().click();
+            this.elements.closeBtn().click();
 
 
         })
@@ -304,6 +325,28 @@ class WarehousePage {
         this.elements.confitRegisDriverBtn().click();
 
         
+    }
+    reEditLineHaul(reEditName,reEditIdVehicle,reDest1,reEditDriver){
+        this.elements.hamburgerBtn().click();
+        this.elements.btnLineHaul().click();
+        this.elements.btnOpcionLineHaulTemp().click();
+        this.elements.reEditThisLineHaul().click();
+        this.elements.editNameLineHaul().type(`{selectAll}{backspace}${reEditName}`);
+        this.elements.reEditIdVehicle().type(`{selectAll}{backspace}${reEditIdVehicle}`);
+        this.elements.reEditTypeDet().type(`{selectAll}{backspace}${reDest1}`);
+        this.elements.reEditSelctFirtOption().click();
+        this.elements.reEditDriver().type(`{selectAll}{backspace}${reEditDriver}{enter}`);
+        this.elements.driverId0().click();
+        this.elements.reEditEditBt().click();
+
+    }
+
+    cleanLineHaul(){
+        this.elements.hamburgerBtn().click();
+        this.elements.btnLineHaul().click();
+        this.elements.btnOpcionLineHaulTemp().click();
+        this.elements.cleanLineHaul().click();
+        this.elements.confirmCleanBtn().click();
     }
 
     createAddTransferContainer(numContainer,TransferPack,fingerID,ordeID){
@@ -532,8 +575,61 @@ class WarehousePage {
         this.elements.containerLongBtn().click();
         this.elements.closeContainer().click();
         this.elements.confirmCloseContainer().click();
-
     }
+
+
+    assignContainerInLineHaul(numContainer,fingerID,ordeID,lineHaul,driver,idVehicle,destination,destination2,depTime){
+        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
+        this.elements.hamburgerBtn().click();
+        this.elements.btnCreateContainers().click();
+        this.elements.btnContinueNoImp().click();
+        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+        this.elements.btnAcceptCreateCon().click();
+        cy.wait('@IdContainer')
+            .its('response.body.data.createContainers.containers[0].id')
+            .then(response => {cy.log(response)})  
+        cy.get('@IdContainer').then(request =>{
+
+            this.elements.hamburgerBtn().click();
+            this.elements.btnContainers().click();
+            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
+            this.elements.btnStartFingerId().click();
+
+            this.elements.btnPlusContainers().click();
+            const idContainer = request.response.body.data.createContainers.containers[0].id
+            this.elements.typeScanContainers().type(`${idContainer}`);
+            this.elements.btnConfirmAddContainer().click();
+            cy.wait(2500)                
+            this.elements.typeOrderID().type(`${ordeID}{enter}`);
+
+            this.elements.hamburgerBtn().click();
+            this.elements.btnLineHaul().click();
+            this.elements.btnNewlineHaul().click();
+            this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}`);
+            this.elements.addCreateLineHaul().click();
+
+            this.elements.hamburgerBtn().click();
+            this.elements.btnLineHaul().click();
+            this.elements.btnRegistNewVehicle().click();
+            this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
+            this.elements.driverId0().click();
+            this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
+            this.elements.confirmRegDriver().click();
+            this.elements.typeDest().type(`${destination}`);
+            this.elements.locationOption0().click();
+            this.elements.typeDest().type(`${destination2}{enter}`);
+            this.elements.locationOption0().click();
+            this.elements.typeDepartureTime().type('2023-04-13T17:30');
+            this.elements.confitRegisDriverBtn().click();
+            this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
+            this.elements.letOutLineHaul().click();
+
+        })
+    }
+
+
+
+
 }
 export default new WarehousePage();
 
