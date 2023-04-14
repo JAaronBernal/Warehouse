@@ -585,6 +585,7 @@ class WarehousePage {
         this.elements.btnContinueNoImp().click();
         this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
         this.elements.btnAcceptCreateCon().click();
+        cy.wait(2500)
         cy.wait('@IdContainer')
             .its('response.body.data.createContainers.containers[0].id')
             .then(response => {cy.log(response)})  
@@ -594,6 +595,7 @@ class WarehousePage {
             this.elements.btnContainers().click();
             this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
             this.elements.btnStartFingerId().click();
+            cy.wait(2500)
 
             this.elements.btnPlusContainers().click();
             const idContainer = request.response.body.data.createContainers.containers[0].id
@@ -601,12 +603,20 @@ class WarehousePage {
             this.elements.btnConfirmAddContainer().click();
             cy.wait(2500)                
             this.elements.typeOrderID().type(`${ordeID}{enter}`);
+            cy.wait(2500)
+            this.elements.containerLongBtn().click();
+            this.elements.closeContainer().click();
+            this.elements.confirmCloseContainer().click();
+            cy.wait(2500)
+            
+
 
             this.elements.hamburgerBtn().click();
             this.elements.btnLineHaul().click();
             this.elements.btnNewlineHaul().click();
             this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}`);
             this.elements.addCreateLineHaul().click();
+            cy.wait(2500)
 
             this.elements.hamburgerBtn().click();
             this.elements.btnLineHaul().click();
