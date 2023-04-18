@@ -33,6 +33,7 @@ Then("the user synchronizes the {string} {string} {string} {string} {string} {st
     //warehouse.deletLineHaul();
 
     warehouse.assignContainerInLineHaul(numContainer,fingerID,ordeID,lineHaul,driver,idVehicle,destination,destination2,depTime);
+    warehouse.deletLineHaul();
     
     
     

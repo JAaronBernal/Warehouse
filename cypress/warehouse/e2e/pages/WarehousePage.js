@@ -43,6 +43,11 @@ class WarehousePage {
         scanContainerLineHaul: () => cy.get('#scanner-input'),
         transferPackLineHaul: () => cy.get('.css-1n8vnop > .MuiButton-outlined'),
         letOutLineHaul: () =>  cy.get('.css-1n8vnop > .MuiButton-contained'),
+        letOutConfirmBtn: () => cy.get('#accept-button'),
+        letOutCancelBtn: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-outlined'),
+        letOutCommentType: () => cy.get('.css-1k7a714 > .MuiFormControl-root > .MuiInputBase-root'),
+        letOutCommentConfirm: () => cy.get('#accept-button'),
+        letOutCommentCancel: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-outlined'),
 
 
 
@@ -65,8 +70,10 @@ class WarehousePage {
         //destination
         typeDest: () => cy.xpath('//*[@id="location-autocomplete"]'),
         locationOption0: () => cy.get('#location-autocomplete-option-0'),
-        //typeDepartureTime: () => cy.xpath('//*[@id=":r8:"]'),
-        typeDepartureTime: () => cy.get('body > div:nth-child(11) > div.MuiBox-root.css-kgv6uk > div.MuiBox-root.css-1k7a714 > div.MuiFormControl-root.MuiFormControl-fullWidth.MuiTextField-root.css-lne5w1 > div'),
+        typeDepartureTime: () => cy.xpath('//*[@id=":rc:"]'),
+        //typeDepartureTime: () => cy.get('body > div:nth-child(11) > div.MuiBox-root.css-kgv6uk > div.MuiBox-root.css-1k7a714 > div.MuiFormControl-root.MuiFormControl-fullWidth.MuiTextField-root.css-lne5w1 > div'),
+        //typeDepartureTime: () => cy.get('#unified-runner'),
+        typeDepartureTimeLineHual: () => cy.xpath('//*[@id=":ra:"]'),
         cancelRegisDriverBtn: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-outlined'),
         confitRegisDriverBtn: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-contained'),
 
@@ -78,8 +85,9 @@ class WarehousePage {
         typeScanContainers: () => cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input'),
         btnCancelAddContainer: () =>cy.get('.css-1tcrf2f > .MuiButton-outlined'),
         btnConfirmAddContainer: () =>cy.get('#accept-button'),
-        seeLaber: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
-        closeContainer: () => cy.get('.MuiPaper-root > .MuiList-root > :nth-child(2)'),
+        seeOrder: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
+        seeLaber: () => cy.get('.MuiPaper-root > .MuiList-root > :nth-child(2)'),
+        closeContainer: () => cy.get('.MuiPaper-root > .MuiList-root > :nth-child(3)'),
         cancelCloseContainer: () => cy.get('.MuiBox-root > .MuiButton-outlined'),
         confirmCloseContainer: () => cy.get('#accept-button'),
         containerLongBtn: () => cy.get('#long-button'),
@@ -88,7 +96,7 @@ class WarehousePage {
         containerLongBtn4: () => cy.get('#__next > main > div.MuiBox-root.css-z1l42k > div.MuiBox-root.css-b64ain > div.MuiBox-root.css-qog72m > div > div.MuiBox-root.css-1wkbtf3 > div:nth-child(4) > div.MuiBox-root.css-1k06pwf > div:nth-child(2)'),
         containerLongBtn5: () => cy.get('#__next > main > div.MuiBox-root.css-z1l42k > div.MuiBox-root.css-b64ain > div.MuiBox-root.css-qog72m > div > div.MuiBox-root.css-1wkbtf3 > div:nth-child(5) > div.MuiBox-root.css-1k06pwf > div:nth-child(2)'),
         //Transfer package 
-        transferPack: () => cy.get('.MuiPaper-root > .MuiList-root > :nth-child(3)'),
+        transferPack: () => cy.get('.MuiPaper-root > .MuiList-root > :nth-child(4)'),
         typeIdContainer: () => cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input'),
         cancelTransferPack: () => cy.get('.css-1tcrf2f > .MuiButton-outlined'),
         confirmTransferPack: () => cy.get('#accept-button'),
@@ -320,8 +328,7 @@ class WarehousePage {
         this.elements.locationOption0().click();
         this.elements.typeDest().type(`${destination2}{enter}`);
         this.elements.locationOption0().click();
-        this.elements.typeDepartureTime().type('2023-04-10T17:30');
-        //this.elements.typeDepartureTime().type(new Date().toISOString().slice(0, 10));
+        this.elements.typeDepartureTimeLineHual().type('2023-04-10T17:30');
         this.elements.confitRegisDriverBtn().click();
 
         
@@ -629,10 +636,14 @@ class WarehousePage {
             this.elements.locationOption0().click();
             this.elements.typeDest().type(`${destination2}{enter}`);
             this.elements.locationOption0().click();
-            this.elements.typeDepartureTime().type('2023-04-13T17:30');
+            this.elements.typeDepartureTime().type('2023-04-17T17:30');
             this.elements.confitRegisDriverBtn().click();
             this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
+            cy.wait(2500)
             this.elements.letOutLineHaul().click();
+            this.elements.letOutConfirmBtn().click();
+            this.elements.letOutCommentType().type('Test')
+            this.elements.letOutCommentConfirm().click();
 
         })
     }
