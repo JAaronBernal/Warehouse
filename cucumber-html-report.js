@@ -8,8 +8,8 @@ report.generate({
     displayReportTime: true,
     metadata: {
         browser: {
-            name: "chrome",
-            version: "XX",
+            name: "Chrome",
+            version: "v109",
         },
         device: "Local test machine",
         platform: {

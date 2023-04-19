@@ -356,7 +356,7 @@ class WarehousePage {
         this.elements.confirmCleanBtn().click();
     }
 
-    createAddTransferContainer(numContainer,TransferPack,fingerID,ordeID){
+    createAddTransferContainer(numContainer,TransferPack,fingerID,orderID){
 
         cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
         this.elements.hamburgerBtn().click();
@@ -382,7 +382,7 @@ class WarehousePage {
                 this.elements.typeScanContainers().type(`${idContainer}`);
                 this.elements.btnConfirmAddContainer().click();
                 cy.wait(2500)
-                this.elements.typeOrderID().type(`${ordeID}{enter}`);
+                this.elements.typeOrderID().type(`${orderID}{enter}`);
                 break;
                 
                 case "2":
@@ -401,7 +401,7 @@ class WarehousePage {
                 this.elements.toggleBtnContainer2().click();
 
                 cy.wait(2500)
-                this.elements.typeOrderID().type(`${ordeID}{enter}`);
+                this.elements.typeOrderID().type(`${orderID}{enter}`);
 
                 //Transfer from container 2 to container 1
                 // this.elements.wait1seg();
@@ -439,7 +439,7 @@ class WarehousePage {
                 this.elements.btnConfirmAddContainer().click();
 
                 cy.wait(2500)
-                this.elements.typeOrderID().type(`${ordeID}{enter}`);
+                this.elements.typeOrderID().type(`${orderID}{enter}`);
 
                 this.elements.wait1seg();
                 this.elements.containerLongBtn2().click();
@@ -478,7 +478,7 @@ class WarehousePage {
                 this.elements.btnConfirmAddContainer().click();
 
                 cy.wait(2500)
-                this.elements.typeOrderID().type(`${ordeID}{enter}`);
+                this.elements.typeOrderID().type(`${orderID}{enter}`);
 
                 this.elements.wait1seg();
                 this.elements.containerLongBtn4().click();
@@ -527,7 +527,7 @@ class WarehousePage {
                 this.elements.btnConfirmAddContainer().click();
 
                 cy.wait(2500)
-                this.elements.typeOrderID().type(`${ordeID}{enter}`);
+                this.elements.typeOrderID().type(`${orderID}{enter}`);
 
                 this.elements.wait1seg();
                 this.elements.containerLongBtn().click();
@@ -585,7 +585,7 @@ class WarehousePage {
     }
 
 
-    assignContainerInLineHaul(numContainer,fingerID,ordeID,lineHaul,driver,idVehicle,destination,destination2,depTime){
+    assignContainerInLineHaul(numContainer,fingerID,orderID,lineHaul,driver,idVehicle,destination,destination2,depTime){
         cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
         this.elements.hamburgerBtn().click();
         this.elements.btnCreateContainers().click();
@@ -609,7 +609,7 @@ class WarehousePage {
             this.elements.typeScanContainers().type(`${idContainer}`);
             this.elements.btnConfirmAddContainer().click();
             cy.wait(2500)                
-            this.elements.typeOrderID().type(`${ordeID}{enter}`);
+            this.elements.typeOrderID().type(`${orderID}{enter}`);
             cy.wait(2500)
             this.elements.containerLongBtn().click();
             this.elements.closeContainer().click();

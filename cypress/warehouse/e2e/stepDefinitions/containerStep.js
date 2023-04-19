@@ -16,9 +16,9 @@ Given("the user in the Warehouse page in {string} selected", (environment) => {
 When("the user select the {string} to work", (station) => {
     warehouse.loginWarehouse(station);
 });
-Then("the user works in containers with {string} {string} {string} {string} {string} {string}", (layout, numContainer, TransferPack, fingerID, ordeID,secondOrderID) => {
+Then("the user works in containers with {string} {string} {string} {string} {string} {string}", (layout, numContainer, TransferPack, fingerID, orderID,secondOrderID) => {
     warehouse.actLayout(layout);
-    warehouse.createAddTransferContainer(numContainer,TransferPack,fingerID,ordeID);
+    warehouse.createAddTransferContainer(numContainer,TransferPack,fingerID,orderID);
     warehouse.descContainer();
     warehouse.addOrder(secondOrderID);
     warehouse.actContainer();
