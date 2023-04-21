@@ -51,9 +51,11 @@ class InductionPage {
         //this.elements.userName().type(`${user}{enter}`);
         
         this.elements.currentBtnStation().click();
-        cy.wait(1000)
+        cy.wait(3500)
         this.elements.inputStation().type(`${station}`)
+        cy.wait(2000)
         this.elements.firstOptionInput().click();
+        cy.wait(2000)
         this.elements.btnChangeStation().click();
         this.elements.btnConfirmChangeStation().click();
         this.elements.station().should('have.text',station)

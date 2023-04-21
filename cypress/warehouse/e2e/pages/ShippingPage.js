@@ -3,7 +3,6 @@ class ShippingPage {
         //Home
         wait5seg: () => cy.wait(5000),
         wait1seg: () => cy.wait(1000),
-        makeAShipment: () => cy.get('.Header_sectionThree__lyKa8 > .Header_headerBtnCreateOrder__16OKZ'),
 
         //shipping type
         sameDay: () => cy.get(':nth-child(1) > .styles_grid__Gq2El > :nth-child(1) > label > .styles_content__2hApq'),
@@ -52,6 +51,7 @@ class ShippingPage {
         //Aditional
         ensureShipping: () => cy.get(':nth-child(3) > :nth-child(2) > label > span'),
         cOD: () => cy.get(':nth-child(3) > :nth-child(3) > label > span'),
+        typeCOD: () => cy.get('.styles_formControlSecure__3C1mv > .form-control-input'),
         btnCalculate: () => cy.get('.styles_sendBtn__1jlz3'),
 
         //Recap
@@ -153,6 +153,7 @@ class ShippingPage {
         this.elements.typePhoneRecollect().type(`${phoneThatRecollect}`);
         this.elements.typeEmailRecollect().type(`${emailThatRecollect}`);
     }
+
     userDataThatReceives(locationReceives, typeOfHousingReceives, nameThatReceives, phoneThatReceives, emailThatReceives, referenceReceives) {
         this.elements.addLocationReceives().type(`${locationReceives}`);
         cy.wait(2000);
@@ -179,6 +180,19 @@ class ShippingPage {
         this.elements.wait1seg();
         this.elements.btnPrint().click();
     }
+    cod(cod){
+        switch(cod){
+            case "NA":
+                this.elements.wait1seg();
+                break;
+            case cod:
+                this.elements.cOD().click();
+                this.elements.typeCOD().type(`{selectAll}{backspace}${cod}`);
+                break;
+        
+        }
+
+    }
 
     userDataThatRecolelctCol(nameThatRecollect, phoneThatRecollect, emailThatRecollect) {
         this.elements.typeNameRecollectCol().type(`${nameThatRecollect}`);
@@ -203,8 +217,6 @@ class ShippingPage {
         this.elements.typeEmailReceives().type(`${emailThatReceives}`);
         this.elements.typeReferenceReceives().type(`${referenceReceives}`);
 }
-    makeAShipment() {
-    this.elements.makeAShipment().click();
-}
+
 }
 export default new ShippingPage();
