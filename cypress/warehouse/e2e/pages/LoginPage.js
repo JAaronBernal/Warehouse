@@ -14,7 +14,7 @@ class LoginPage {
 
             case "Massive Load Sandbox":
                 //cy.visit('https://login-git-sandbox-99minutos.vercel.app/'
-                cy.visit('https://massive-front-git-feature-massiveloadv4-2-99minutos.vercel.app/');
+                cy.visit('https://cargamasiva.99minutos.dev/home');
                 break;
     
             case "Massive Load Prod":

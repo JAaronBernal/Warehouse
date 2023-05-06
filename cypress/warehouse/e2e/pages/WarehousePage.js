@@ -1,3 +1,4 @@
+import { guias } from './guias.js';
 class WarehousePage {
     elements = {
         wait1seg: () => cy.wait(1000),
@@ -21,9 +22,10 @@ class WarehousePage {
         addCreateLineHaul: () => cy.get('.css-1l89mu2 > .MuiButton-contained'),
         closeNewLineHaul: () => cy.get('.css-8atqhb > .MuiButtonBase-root'),
         btnOpcionlineHaul: () => cy.get('#basic-button'),
+        btnOpcionInLH: () => cy.get('#basic-button'),
         //Temporal
         deletThisLineHaulTemp: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
-        btnOpcionLineHaulTemp: () => cy.get(':nth-child(3) > .css-10b2cka > .css-1r9gd80 > #basic-button'),
+        btnOpcionLineHaulTemp: () => cy.get(':nth-child(4) > .css-10b2cka > .css-1r9gd80 > #basic-button'),
         editThisLineHaulTemp: () => cy.get('.MuiList-root > [tabindex="-1"]'),
         //reedit
         reEditThisLineHaul: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
@@ -61,6 +63,7 @@ class WarehousePage {
         
         //Driver
         btnRegistNewVehicle: () => cy.get('.css-ekpfb0 > .MuiButtonBase-root'),
+        btnRegistNewVehicleTemp: () => cy.get(':nth-child(4) > .css-10b2cka > .MuiStack-root > .css-ekpfb0 > .MuiButtonBase-root'),
         typeNewDriver: () => cy.get('.MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'),
         driverId0: () => cy.get('#driver-select-option-0'),
         typeIdVehicle: () => cy.get('#new-linehaul'),
@@ -302,14 +305,14 @@ class WarehousePage {
     deletLineHaul(){
         this.elements.hamburgerBtn().click();
         this.elements.btnLineHaul().click();
-        this.elements.btnOpcionLineHaulTemp().click();
+        this.elements.btnOpcionInLH().click();
         this.elements.deletThisLineHaulTemp().click();
         this.elements.btnDeletTheLineHaul().click();
     }
     editLineHaulEmpty(newNameLineHaul){
         this.elements.hamburgerBtn().click();
         this.elements.btnLineHaul().click();
-        this.elements.btnOpcionLineHaulTemp().click();
+        this.elements.btnOpcionInLH().click();
         this.elements.editThisLineHaul().click();
         this.elements.editNameLineHaul().type(`{selectAll}{backspace}${newNameLineHaul}`);
         this.elements.btnEditConfirm().click();
@@ -328,7 +331,7 @@ class WarehousePage {
         this.elements.locationOption0().click();
         this.elements.typeDest().type(`${destination2}{enter}`);
         this.elements.locationOption0().click();
-        this.elements.typeDepartureTimeLineHual().type('2023-04-10T17:30');
+        this.elements.typeDepartureTimeLineHual().type(`2023-05-04T16:00`);
         this.elements.confitRegisDriverBtn().click();
 
         
@@ -336,7 +339,7 @@ class WarehousePage {
     reEditLineHaul(reEditName,reEditIdVehicle,reDest1,reEditDriver){
         this.elements.hamburgerBtn().click();
         this.elements.btnLineHaul().click();
-        this.elements.btnOpcionLineHaulTemp().click();
+        this.elements.btnOpcionInLH().click();
         this.elements.reEditThisLineHaul().click();
         this.elements.editNameLineHaul().type(`{selectAll}{backspace}${reEditName}`);
         this.elements.reEditIdVehicle().type(`{selectAll}{backspace}${reEditIdVehicle}`);
@@ -351,12 +354,14 @@ class WarehousePage {
     cleanLineHaul(){
         this.elements.hamburgerBtn().click();
         this.elements.btnLineHaul().click();
-        this.elements.btnOpcionLineHaulTemp().click();
+        this.elements.btnOpcionInLH().click();
         this.elements.cleanLineHaul().click();
         this.elements.confirmCleanBtn().click();
     }
 
+
     createAddTransferContainer(numContainer,TransferPack,fingerID,orderID){
+        
 
         cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
         this.elements.hamburgerBtn().click();
@@ -621,7 +626,7 @@ class WarehousePage {
             this.elements.hamburgerBtn().click();
             this.elements.btnLineHaul().click();
             this.elements.btnNewlineHaul().click();
-            this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}`);
+            this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
             this.elements.addCreateLineHaul().click();
             cy.wait(2500)
 
@@ -649,6 +654,75 @@ class WarehousePage {
     }
 
 
+    
+    assignContainerInLineHaulStress(numContainer,fingerID,orderID,lineHaul,driver,idVehicle,destination,destination2,depTime){
+        
+        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
+        this.elements.hamburgerBtn().click();
+        this.elements.btnCreateContainers().click();
+        this.elements.btnContinueNoImp().click();
+        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+        this.elements.btnAcceptCreateCon().click();
+        cy.wait(2500)
+        cy.wait('@IdContainer')
+            .its('response.body.data.createContainers.containers[0].id')
+            .then(response => {cy.log(response)})  
+        cy.get('@IdContainer').then(request =>{
+
+            this.elements.hamburgerBtn().click();
+            this.elements.btnContainers().click();
+            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
+            this.elements.btnStartFingerId().click();
+            cy.wait(2500)
+
+            this.elements.btnPlusContainers().click();
+            const idContainer = request.response.body.data.createContainers.containers[0].id
+            this.elements.typeScanContainers().type(`${idContainer}`);
+            this.elements.btnConfirmAddContainer().click();
+            cy.wait(2500)
+            
+            //console.log(guias);
+            for (var i = 0; i < guias.length; i++) {
+            this.elements.typeOrderID().type(`${guias[i]}{enter}`);
+            cy.wait(1000)
+            }
+
+            this.elements.containerLongBtn().click();
+            this.elements.closeContainer().click();
+            this.elements.confirmCloseContainer().click();
+            cy.wait(2500)
+            
+
+
+            this.elements.hamburgerBtn().click();
+            this.elements.btnLineHaul().click();
+            this.elements.btnNewlineHaul().click();
+            this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
+            this.elements.addCreateLineHaul().click();
+            cy.wait(2500)
+
+            this.elements.hamburgerBtn().click();
+            this.elements.btnLineHaul().click();
+            this.elements.btnRegistNewVehicle().click();
+            this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
+            this.elements.driverId0().click();
+            this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
+            this.elements.confirmRegDriver().click();
+            this.elements.typeDest().type(`${destination}`);
+            this.elements.locationOption0().click();
+            this.elements.typeDest().type(`${destination2}{enter}`);
+            this.elements.locationOption0().click();
+            this.elements.typeDepartureTime().type('2023-05-06T17:30');
+            this.elements.confitRegisDriverBtn().click();
+            this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
+            cy.wait(2500)
+            //this.elements.letOutLineHaul().click();
+            //this.elements.letOutConfirmBtn().click();
+            //this.elements.letOutCommentType().type('Test')
+            //this.elements.letOutCommentConfirm().click();
+            
+        })
+    }
 
 
 }

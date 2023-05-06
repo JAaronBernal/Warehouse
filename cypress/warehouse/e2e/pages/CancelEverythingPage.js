@@ -1,3 +1,4 @@
+import { guias } from './guias.js';
 class CancelEverythingPage {
     elements = {
       firstOrder: () => cy.get(':nth-child(2) > :nth-child(2) > .desktop_emphasis__1WIl2'),
@@ -178,6 +179,22 @@ class CancelEverythingPage {
       this.elements.continueBtn().click();
       this.elements.wait1seg();
       this.elements.orderInput().type(`{selectAll}{backspace}{enter}`);
+    }
+
+    cancellPerList() {
+      for (var i = 0; i < guias.length; i++) {
+
+        this.elements.wait2seg();
+        this.elements.orderInput().type(`${guias[i]}{enter}`);
+        this.elements.wait1seg();
+        this.elements.selectNumOrder().click();
+        this.elements.cancelBtn().click();
+        this.elements.otherOption().click();
+        this.elements.textOption().type("Prueba de cancelación");
+        this.elements.continueBtn().click();
+        this.elements.wait1seg();
+        this.elements.orderInput().type(`{selectAll}{backspace}{enter}`);
+      }
     }
 
   }

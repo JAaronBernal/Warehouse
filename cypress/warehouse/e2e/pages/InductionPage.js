@@ -1,3 +1,4 @@
+import { guias } from './guias.js';
 class InductionPage {
     elements = {
         station: () => cy.get('strong.CurrentStation_labelStation__1Ixmu'),
@@ -51,17 +52,20 @@ class InductionPage {
         //this.elements.userName().type(`${user}{enter}`);
         
         this.elements.currentBtnStation().click();
-        cy.wait(3500)
+        cy.wait(1500)
         this.elements.inputStation().type(`${station}`)
-        cy.wait(2000)
+        cy.wait(1000)
         this.elements.firstOptionInput().click();
-        cy.wait(2000)
+        cy.wait(1000)
         this.elements.btnChangeStation().click();
         this.elements.btnConfirmChangeStation().click();
         this.elements.station().should('have.text',station)
     }
     inductionSorting(numOrder){
-        this.elements.scanPac().type(`${numOrder}{enter}`)
+            
+        for (var i = 0; i < guias.length; i++) {
+        this.elements.scanPac().type(`${guias[i]}{enter}`)
+        }
         cy.wait(3500);
     }
     inductionToWarehouse(station, numOrder){
