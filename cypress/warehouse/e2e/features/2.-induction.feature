@@ -7,7 +7,7 @@ Feature: Induction
 
     Examples: 
       |environment | station|numOrder  | 
-      |Test        | MX4    |3694427182|
+      |Test        | MX1    |NA        |
 
 
 

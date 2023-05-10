@@ -18,5 +18,5 @@ When("the user select the {string} to work S", (station) => {
 });
 Then("the user synchronizes this {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string}", (layout, numContainer, TransferPack, fingerID, ordeID,secondOrderID, lineHaul, newNameLineHaul,driver,idVehicle,destination,destination2,depTime, reEditName, reEditIdVehicle,reDest1,reEditDriver) => {
     warehouse.assignContainerInLineHaulStress(numContainer,fingerID,ordeID,lineHaul,driver,idVehicle,destination,destination2,depTime);    
-    
+     
 });

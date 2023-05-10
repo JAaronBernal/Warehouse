@@ -62,11 +62,30 @@ class InductionPage {
         this.elements.station().should('have.text',station)
     }
     inductionSorting(numOrder){
+        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdP99')
             
         for (var i = 0; i < guias.length; i++) {
         this.elements.scanPac().type(`${guias[i]}{enter}`)
         }
-        cy.wait(3500);
+        cy.wait(1000);
+        
+        cy.wait('@IdP99')
+            .its('response.body.data.induct.order.route.hasP99Coverage')
+            .then(response => {cy.log(response)}) 
+
+    }
+
+    inductionSortingP99(){
+        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdP99')
+            
+        for (var i = 0; i < guias.length; i++) {
+        this.elements.scanPac().type(`${guias[i]}{enter}`)
+        cy.wait('@IdP99')
+            .its('response.body.data.induct.order.route.hasP99Coverage')
+            .then(response => {cy.wrap(response).should('equal', true)})
+    }
+        cy.wait(1000);       
+
     }
     inductionToWarehouse(station, numOrder){
         cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')

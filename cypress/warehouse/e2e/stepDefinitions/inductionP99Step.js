@@ -6,13 +6,13 @@ import {
 
 const inductionPage = require("../pages/InductionPage").default;
 
-Given("A user open the induction page in {string} selected", (environment) => {
+Given("User open the induction page in {string} selected", (environment) => {
     inductionPage.openWebPage(environment);
 });
-When("the user must be at the selected {string}", (station) => {
+When("the user must be at the selected {string} to work", (station) => {
     inductionPage.bannerGeo();
     inductionPage.station(station);
 });
-Then("user should induction a {string}", (numOrder) => {
-    inductionPage.inductionSortingP99(numOrder);
+Then("user should induction to assert P99", () => {
+    inductionPage.inductionSortingP99();
 });
