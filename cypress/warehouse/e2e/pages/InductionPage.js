@@ -66,12 +66,13 @@ class InductionPage {
             
         for (var i = 0; i < guias.length; i++) {
         this.elements.scanPac().type(`${guias[i]}{enter}`)
-        }
-        cy.wait(1000);
-        
         cy.wait('@IdP99')
             .its('response.body.data.induct.order.route.hasP99Coverage')
             .then(response => {cy.log(response)}) 
+        }
+        cy.wait(1000);
+        
+        
 
     }
 

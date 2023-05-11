@@ -37,6 +37,6 @@ module.exports = defineConfig({
     //Tiempo de espera en respuesta de cada acción,
     //ruta99 lo utilza a 300000 para su optimización
     //defaultCommandTimeout: 300000,
-    defaultCommandTimeout: 10000,
+    defaultCommandTimeout: 25000,
   },
 });

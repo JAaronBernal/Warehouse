@@ -724,6 +724,39 @@ class WarehousePage {
         })
     }
 
+    createAddTransferContainerP99(numContainer,TransferPack,fingerID){
+        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
+        this.elements.hamburgerBtn().click();
+        this.elements.btnCreateContainers().click();
+        this.elements.btnContinueNoImp().click();
+        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+        this.elements.btnAcceptCreateCon().click();
+        cy.wait(2500)
+        cy.wait('@IdContainer')
+            .its('response.body.data.createContainers.containers[0].id')
+            .then(response => {cy.log(response)})  
+        cy.get('@IdContainer').then(request =>{
+
+            this.elements.hamburgerBtn().click();
+            this.elements.btnContainers().click();
+            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
+            this.elements.btnStartFingerId().click();
+            cy.wait(2500)
+
+            this.elements.btnPlusContainers().click();
+            const idContainer = request.response.body.data.createContainers.containers[0].id
+            this.elements.typeScanContainers().type(`${idContainer}`);
+            this.elements.btnConfirmAddContainer().click();
+            cy.wait(2500)
+            
+            //console.log(guias);
+            for (var i = 0; i < guias.length; i++) {
+            this.elements.typeOrderID().type(`${guias[i]}{enter}`);
+            cy.wait(1000)
+            }
+        })
+    }
+
 
 }
 export default new WarehousePage();

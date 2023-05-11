@@ -14,5 +14,5 @@ When("the user must be at the selected {string}", (station) => {
     inductionPage.station(station);
 });
 Then("user should induction a {string}", (numOrder) => {
-    inductionPage.inductionSortingP99(numOrder);
+    inductionPage.inductionSorting(numOrder);
 });
