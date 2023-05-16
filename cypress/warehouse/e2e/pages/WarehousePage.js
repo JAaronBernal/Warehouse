@@ -724,7 +724,7 @@ class WarehousePage {
         })
     }
 
-    createAddTransferContainerP99(numContainer,TransferPack,fingerID){
+    createAddTransferContainerP99(numContainer,fingerID){
         cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
         this.elements.hamburgerBtn().click();
         this.elements.btnCreateContainers().click();

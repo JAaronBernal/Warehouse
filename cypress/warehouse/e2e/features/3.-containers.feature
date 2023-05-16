@@ -7,6 +7,6 @@ Feature: Containers
 
     Examples: 
       |environment | station|layout         |numContainer|TransferPack|fingerID   |orderID    |secondOrderID|
-      |Test        | MX1    |Layout-MX1.csv | 1          | NA         |P99TAE     |2320225752 |3412391569   |
+      |Test        | MX1    |Layout-MX4.csv  | 2          | 2          |TAE        |2320225752 |3412391569   |
 
       
