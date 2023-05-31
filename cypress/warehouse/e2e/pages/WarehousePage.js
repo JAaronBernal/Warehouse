@@ -712,7 +712,7 @@ class WarehousePage {
             this.elements.locationOption0().click();
             this.elements.typeDest().type(`${destination2}{enter}`);
             this.elements.locationOption0().click();
-            this.elements.typeDepartureTime().type('2023-05-06T17:30');
+            this.elements.typeDepartureTime().type('2023-05-18T17:30');
             this.elements.confitRegisDriverBtn().click();
             this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
             cy.wait(2500)

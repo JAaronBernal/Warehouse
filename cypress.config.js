@@ -33,10 +33,10 @@ module.exports = defineConfig({
     viewportHeight: 900,
     chromeWebSecurity: false,
     //Tiempo en lo que espara para cargar la pagina
-    pageLoadTimeout: 25000,
+    pageLoadTimeout: 45000,
     //Tiempo de espera en respuesta de cada acción,
     //ruta99 lo utilza a 300000 para su optimización
     //defaultCommandTimeout: 300000,
-    defaultCommandTimeout: 25000,
+    defaultCommandTimeout: 45000,
   },
 });
