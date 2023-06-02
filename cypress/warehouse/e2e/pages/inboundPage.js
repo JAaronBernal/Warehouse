@@ -62,7 +62,8 @@ class InboundPage {
         truncateQR: () => cy.get('.truncate'),
         btnCloseQR: () => cy.get('#alert-dialog-title > .MuiButtonBase-root'),
 
-
+        //enter code
+        enterCodeScan: () => cy.get('#scan'),
 
 
 
@@ -144,6 +145,15 @@ class InboundPage {
             .wrap({scan:'response.data.GetSessionInbound.inbound.InboundId'}).its('scan')
             .then(response => {cy.log(response)})
     }
+    scanEnterCode(){
+        for (var i = 0; i < guias.length; i++) {
+            this.elements.enterCodeScan().type(`${guias[i]}{enter}`)
+        }
+    }
+    scanErrorEnterCode(){
+        this.elements.enterCodeScan().type('2158020493{enter}')
+    }
+
     finishDownload(){
         this.elements.finishDownload().click();
         cy.wait(1000);
@@ -157,6 +167,7 @@ class InboundPage {
         this.elements.checkboxDownloadAllPackage().click();
         this.elements.btnConfirmDownloadAllPackage().should('be.visible').click();
     }
+
     
     inductionSorting(numOrder){
         cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdP99')
