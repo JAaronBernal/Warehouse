@@ -44,6 +44,7 @@ class InductionPage {
     }
 
     bannerGeo(){
+
         this.elements.closeBanner().click();
 
     }
@@ -53,12 +54,10 @@ class InductionPage {
         
         this.elements.currentBtnStation().click();
         cy.wait(1500)
-        this.elements.inputStation().type(`${station}`)
-        cy.wait(1000)
-        this.elements.firstOptionInput().click();
-        cy.wait(1000)
-        this.elements.btnChangeStation().click();
-        this.elements.btnConfirmChangeStation().click();
+        this.elements.inputStation().should('be.visible').type(`${station}`)
+        this.elements.firstOptionInput().should('be.visible').click();
+        this.elements.btnChangeStation().should('be.visible').click();
+        this.elements.btnConfirmChangeStation().should('be.visible').click();
         this.elements.station().should('have.text',station)
     }
     inductionSorting(numOrder){
