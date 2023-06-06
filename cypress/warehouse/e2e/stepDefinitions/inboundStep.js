@@ -15,12 +15,13 @@ When("the user must be at the selected {string} to use inbound", (station) => {
 Then("user should use inbound with {string} {string} {string} {string} {string} {string} {string} {string} {string} {string}", (emailVeloz, nameVeloz, kindOfDriver, providerName, vehicleType, vehiclePlates, driverReasonNoQR, packageAmount, userActivity, stationOrigin) => {
     //inboundPage.velozWithoutMobileApp(emailVeloz, nameVeloz, kindOfDriver, providerName, vehicleType, vehiclePlates, driverReasonNoQR, packageAmount);
     //inboundPage.userActivity(userActivity,stationOrigin);
-    //inboundPage.addOtherUser();
-    inboundPage.scanEnterCode();
-    inboundPage.scanEnterCode();
-    inboundPage.scanErrorEnterCode();
-    inboundPage.finishDownload();
-    inboundPage.logOut();
+    //*Check Api* inboundPage.addOtherUser();
+    //inboundPage.scanEnterCode();
+    //inboundPage.scanEnterCode();
+    //inboundPage.scanErrorEnterCode();
+    //inboundPage.finishDownload();
+    //inboundPage.logOut();
+    inboundPage.scanQRVeloz();
     
 
 });

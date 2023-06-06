@@ -168,7 +168,11 @@ class InboundPage {
         this.elements.btnConfirmDownloadAllPackage().should('be.visible').click();
     }
 
-    
+    scanQRVeloz(){
+        cy.wait(1500)
+        this.elements.btnEscanerQrVeloz().click();
+
+    }
     inductionSorting(numOrder){
         cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdP99')
             
