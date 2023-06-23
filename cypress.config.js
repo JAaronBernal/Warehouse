@@ -12,6 +12,7 @@ module.exports = defineConfig({
   projectId: 'kdxdax',
   e2e: {
 
+    experimentalModifyObstructiveThirdPartyCode: true,
     // sepupNodeEvents: Sustituye el folder de plugins 
     async setupNodeEvents(on, config) {
       // implement node event listeners here

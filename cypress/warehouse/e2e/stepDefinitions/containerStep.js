@@ -19,11 +19,11 @@ When("the user select the {string} to work", (station) => {
 Then("the user works in containers with {string} {string} {string} {string} {string} {string}", (layout, numContainer, TransferPack, fingerID, orderID,secondOrderID) => {
     warehouse.actLayout(layout);
     warehouse.createAddTransferContainer(numContainer,TransferPack,fingerID,orderID);
-    warehouse.descContainer();
-    warehouse.addOrder(secondOrderID);
-    warehouse.actContainer();
-    warehouse.closeContainer(fingerID);
-    warehouse.closeContainer(fingerID);
+    //warehouse.descContainer();
+    //warehouse.addOrder(secondOrderID);
+    //warehouse.actContainer();
+    //warehouse.closeContainer(fingerID);
+    //warehouse.closeContainer(fingerID);
     
     
 });

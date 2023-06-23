@@ -18,19 +18,6 @@ When("the user select the {string}", (station) => {
 });
 Then("the user synchronizes the {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string}", (layout, numContainer, TransferPack, fingerID, ordeID,secondOrderID, lineHaul, newNameLineHaul,driver,idVehicle,destination,destination2,depTime, reEditName, reEditIdVehicle,reDest1,reEditDriver) => {
     //warehouse.actLayout(layout);
-    //warehouse.createAddTransferContainer(numContainer,TransferPack,fingerID,ordeID);
-    //warehouse.descContainer();
-    //warehouse.addOrder(secondOrderID);
-    //warehouse.actContainer();
-    //warehouse.closeContainer(fingerID);
-
-
-    //warehouse.addLineHaul(lineHaul);
-    //warehouse.editLineHaulEmpty(newNameLineHaul);
-    //warehouse.regisVehicle(driver,idVehicle,destination,destination2,depTime);
-    //warehouse.reEditLineHaul(reEditName, reEditIdVehicle, reDest1, reEditDriver);
-    //warehouse.cleanLineHaul();
-    //warehouse.deletLineHaul();
 
     warehouse.assignContainerInLineHaul(numContainer,fingerID,ordeID,lineHaul,driver,idVehicle,destination,destination2,depTime);
     warehouse.deletLineHaul();

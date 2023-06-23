@@ -1,6 +1,9 @@
 import { guias } from './guias.js';
 class InboundPage {
     elements = {
+        //Login
+        email: () => cy.xpath('//*[@id="i0116"]'),
+        pwd: () =>cy.xpath('//*[@id="i0118"]'),
         //Option
         welcome: () => cy.get('.css-12xa9h0'),
         userOption: () => cy.get('.css-camaj1 > .MuiButtonBase-root'),
@@ -72,13 +75,25 @@ class InboundPage {
     };
     openWebPage(environment) {
         switch(environment) {
-            case "Prod":
-                cy.visit('https://warehouse.99minutos.com/');
+            case "Test2FA":
+                cy.visit('https://inbound-induction-frontend-git-release-101-99minutos.vercel.app/');
                 break;
             case "Test":
-                cy.visit('https://inbound-induction-frontend-test.vercel.app/')
+                cy.session("login", ()=>{
+                cy.visit('https://inbound-induction-frontend-git-release-101-99minutos.vercel.app/')
+                this.elements.email().should('be.visible').type('qa@99minutos.com{enter}');
+                this.elements.pwd().should('be.visible').type('Logistics.99m{enter}')
+
+            })
                 break;
+                
         }
+
+    }
+
+    login(){
+        this.elements.email().should('be.visible').type('qa@99minutos.com{enter}');
+        this.elements.pwd().should('be.visible').type('Logistics.99m{enter}')
 
     }
 

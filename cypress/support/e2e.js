@@ -24,5 +24,7 @@ import 'cypress-iframe';
 //xpath plugin
 require('@cypress/xpath');
 
+
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

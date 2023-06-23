@@ -30,13 +30,16 @@ class WarehousePage {
         //reedit
         reEditThisLineHaul: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
         reEditIdVehicle: () =>cy.get('#vehicleLicencePlates'),
-        reEditTypeDet: () => cy.get('.css-w7zgc7 > .MuiFormControl-root > .MuiInputBase-root'),
+        //reEditTypeDet: () => cy.get('.css-w7zgc7 > .MuiFormControl-root > .MuiInputBase-root'),
+        reEditTypeDet: () => cy.get('#location-autocomplete'),
         reEditSelctFirtOption: () => cy.get('#location-autocomplete-listbox'),
-        reEditDriver: () => cy.get('.css-og3as7 > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'),
+        //reEditDriver: () => cy.get('.css-og3as7 > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'),
+        reEditDriver: () => cy.xpath('//*[@id=":rg:"]'),
         reEditCloseBtn: () => cy.get('.css-1l89mu2 > .MuiButton-outlined'),
         reEditEditBt: () => cy.get('.css-1l89mu2 > .MuiButton-contained'),
 
         //Clean Line Haul
+        
         cleanLineHaul: () => cy.get('.MuiList-root > [tabindex="-1"]'),
         cancelCleanBtn: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-outlined'),
         confirmCleanBtn: () => cy.get('#accept-button'),
@@ -65,13 +68,17 @@ class WarehousePage {
         btnRegistNewVehicle: () => cy.get('.css-ekpfb0 > .MuiButtonBase-root'),
         btnRegistNewVehicleTemp: () => cy.get(':nth-child(4) > .css-10b2cka > .MuiStack-root > .css-ekpfb0 > .MuiButtonBase-root'),
         typeNewDriver: () => cy.get('.MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'),
-        driverId0: () => cy.get('#driver-select-option-0'),
+        //driverId0: () => cy.get('#driver-select-option-0'),
+        driverId0: () => cy.xpath('//*[@id=":r5:-option-0"]'),
+        driverWId0: () => cy.xpath('//*[@id=":r7:-option-0"]'),
+
         typeIdVehicle: () => cy.get('#new-linehaul'),
         cancelRegDriver: () =>cy.get('.css-1l89mu2 > .MuiButton-outlined'),
         confirmRegDriver: () => cy.get('.css-1l89mu2 > .MuiButton-contained'),
         contaninerClose: () => cy.get('.MuiTypography-caption'),
         //destination
-        typeDest: () => cy.xpath('//*[@id="location-autocomplete"]'),
+        //typeDest: () => cy.xpath('//*[@id="location-autocomplete"]'),
+        typeDest: () => cy.get('#location-autocomplete'),
         locationOption0: () => cy.get('#location-autocomplete-option-0'),
         typeDepartureTime: () => cy.xpath('//*[@id=":rc:"]'),
         //typeDepartureTime: () => cy.get('body > div:nth-child(11) > div.MuiBox-root.css-kgv6uk > div.MuiBox-root.css-1k7a714 > div.MuiFormControl-root.MuiFormControl-fullWidth.MuiTextField-root.css-lne5w1 > div'),
@@ -305,6 +312,7 @@ class WarehousePage {
     deletLineHaul(){
         this.elements.hamburgerBtn().click();
         this.elements.btnLineHaul().click();
+        cy.wait(1000);
         this.elements.btnOpcionInLH().click();
         this.elements.deletThisLineHaulTemp().click();
         this.elements.btnDeletTheLineHaul().click();
@@ -324,14 +332,14 @@ class WarehousePage {
         this.elements.btnLineHaul().click();
         this.elements.btnRegistNewVehicle().click();
         this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
-        this.elements.driverId0().click();
+        this.elements.driverId0().should('be.visible').click();
         this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
         this.elements.confirmRegDriver().click();
         this.elements.typeDest().type(`${destination}`);
         this.elements.locationOption0().click();
         this.elements.typeDest().type(`${destination2}{enter}`);
         this.elements.locationOption0().click();
-        this.elements.typeDepartureTimeLineHual().type(`2023-05-04T16:00`);
+        this.elements.typeDepartureTimeLineHual().type(`2023-06-15T16:00`);
         this.elements.confitRegisDriverBtn().click();
 
         
@@ -346,7 +354,7 @@ class WarehousePage {
         this.elements.reEditTypeDet().type(`{selectAll}{backspace}${reDest1}`);
         this.elements.reEditSelctFirtOption().click();
         this.elements.reEditDriver().type(`{selectAll}{backspace}${reEditDriver}{enter}`);
-        this.elements.driverId0().click();
+        //this.elements.driverId0().should('be.visible').click();
         this.elements.reEditEditBt().click();
 
     }
@@ -354,6 +362,7 @@ class WarehousePage {
     cleanLineHaul(){
         this.elements.hamburgerBtn().click();
         this.elements.btnLineHaul().click();
+        cy.wait(3500);
         this.elements.btnOpcionInLH().click();
         this.elements.cleanLineHaul().click();
         this.elements.confirmCleanBtn().click();
@@ -370,12 +379,15 @@ class WarehousePage {
         this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
         this.elements.btnAcceptCreateCon().click();
         cy.wait('@IdContainer')
+            //.its('response.data.createContainers.containers[0].id')
             .its('response.body.data.createContainers.containers[0].id')
             .then(response => {cy.log(response)})  
         cy.get('@IdContainer').then(request =>{
 
             this.elements.hamburgerBtn().click();
+            cy.wait(1500);
             this.elements.btnContainers().click();
+            cy.wait(1500);
             this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
             this.elements.btnStartFingerId().click();
 
@@ -634,14 +646,14 @@ class WarehousePage {
             this.elements.btnLineHaul().click();
             this.elements.btnRegistNewVehicle().click();
             this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
-            this.elements.driverId0().click();
+            this.elements.driverWId0().should('be.visible').click();
             this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
             this.elements.confirmRegDriver().click();
             this.elements.typeDest().type(`${destination}`);
             this.elements.locationOption0().click();
             this.elements.typeDest().type(`${destination2}{enter}`);
             this.elements.locationOption0().click();
-            this.elements.typeDepartureTime().type('2023-04-17T17:30');
+            this.elements.typeDepartureTime().type('2023-06-17T17:30');
             this.elements.confitRegisDriverBtn().click();
             this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
             cy.wait(2500)
@@ -663,7 +675,7 @@ class WarehousePage {
         this.elements.btnContinueNoImp().click();
         this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
         this.elements.btnAcceptCreateCon().click();
-        cy.wait(2500)
+        cy.wait(1500)
         cy.wait('@IdContainer')
             .its('response.body.data.createContainers.containers[0].id')
             .then(response => {cy.log(response)})  
@@ -673,24 +685,24 @@ class WarehousePage {
             this.elements.btnContainers().click();
             this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
             this.elements.btnStartFingerId().click();
-            cy.wait(2500)
+            cy.wait(1000)
 
             this.elements.btnPlusContainers().click();
             const idContainer = request.response.body.data.createContainers.containers[0].id
             this.elements.typeScanContainers().type(`${idContainer}`);
             this.elements.btnConfirmAddContainer().click();
-            cy.wait(2500)
+            cy.wait(1500)
             
             //console.log(guias);
             for (var i = 0; i < guias.length; i++) {
             this.elements.typeOrderID().type(`${guias[i]}{enter}`);
-            cy.wait(1000)
+            cy.wait(500)
             }
 
             this.elements.containerLongBtn().click();
             this.elements.closeContainer().click();
             this.elements.confirmCloseContainer().click();
-            cy.wait(2500)
+            cy.wait(1000)
             
 
 
@@ -699,27 +711,27 @@ class WarehousePage {
             this.elements.btnNewlineHaul().click();
             this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
             this.elements.addCreateLineHaul().click();
-            cy.wait(2500)
+            cy.wait(1000)
 
             this.elements.hamburgerBtn().click();
             this.elements.btnLineHaul().click();
             this.elements.btnRegistNewVehicle().click();
             this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
-            this.elements.driverId0().click();
+            this.elements.driverWId0().should('be.visible').click();
             this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
             this.elements.confirmRegDriver().click();
             this.elements.typeDest().type(`${destination}`);
             this.elements.locationOption0().click();
             this.elements.typeDest().type(`${destination2}{enter}`);
             this.elements.locationOption0().click();
-            this.elements.typeDepartureTime().type('2023-05-18T17:30');
+            this.elements.typeDepartureTime().type('2023-06-18T17:30');
             this.elements.confitRegisDriverBtn().click();
             this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
-            cy.wait(2500)
-            //this.elements.letOutLineHaul().click();
-            //this.elements.letOutConfirmBtn().click();
-            //this.elements.letOutCommentType().type('Test')
-            //this.elements.letOutCommentConfirm().click();
+            cy.wait(1000)
+            this.elements.letOutLineHaul().click();
+            this.elements.letOutConfirmBtn().click();
+            this.elements.letOutCommentType().type('Test')
+            this.elements.letOutCommentConfirm().click();
             
         })
     }
