@@ -1,4 +1,6 @@
 import { guias } from './guias.js';
+import { guiasT } from './guiasT.js';
+
 class InductionPage {
     elements = {
         station: () => cy.get('strong.CurrentStation_labelStation__1Ixmu'),
@@ -28,75 +30,79 @@ class InductionPage {
     };
     openWebPage(environment) {
         switch(environment) {
-            case "Prod":
-                cy.visit('https://warehouse.99minutos.com/');
+            case "UAT":
+                cy.visit('https://induction-sorting-console-uat.vercel.app/');
+                cy.wait(2500);
+
+                cy.origin(
+                    'login.microsoftonline.com',
+                    () => {
+                        cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
+                        log: false,})
+                        cy.wait(1500);
+                        cy.get('#i0118').type(`Logistics.99m{enter}`, {
+                            log: false,})
+                        cy.get('#idSIButton9').click();
+                        }
+                )
                 break;
             case "Test":
                 cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')
                 break;
-            case "x":
-                cy.visit('https://landing-99m-git-develop-99minutos.vercel.app/')
+            case "E2ETest":
+                cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')
                 break;
-                //;
 
+            case "E2EUAT":
+                cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')
+                break;
         }
-
     }
 
     bannerGeo(){
-
-        this.elements.closeBanner().click();
-
+        this.elements.closeBanner().should('be.visible').click();
     }
 
     station(station) {
-        //this.elements.userName().type(`${user}{enter}`);
-        
-        this.elements.currentBtnStation().click();
+        this.elements.currentBtnStation().should('be.visible').click();
         cy.wait(1500)
         this.elements.inputStation().should('be.visible').type(`${station}`)
+        cy.wait(1500)
         this.elements.firstOptionInput().should('be.visible').click();
         this.elements.btnChangeStation().should('be.visible').click();
         this.elements.btnConfirmChangeStation().should('be.visible').click();
         this.elements.station().should('have.text',station)
     }
-    inductionSorting(numOrder){
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdP99')
+    inductionSorting(environment){
+        switch(environment) {
+            case "Test":
+                for (var i = 0; i < guiasT.length; i++) {
+                this.elements.scanPac().type(`${guiasT[i]}{enter}`)
+                }
+                cy.wait(1000);
+            break;
+
+            case "UAT":            
+                for (var i = 0; i < guias.length; i++) {
+                this.elements.scanPac().type(`${guias[i]}{enter}`)
+                 }
+                cy.wait(1000);
+            break;
             
-        for (var i = 0; i < guias.length; i++) {
-        this.elements.scanPac().type(`${guias[i]}{enter}`)
-        cy.wait('@IdP99')
-            .its('response.body.data.induct.order.route.hasP99Coverage')
-            .then(response => {cy.log(response)}) 
+            case "E2ETest":
+                cy.readFile('cypress/fixtures/orderNum.json').then(({ orderNum }) => {
+                cy.log('El número de orden es: ', orderNum);
+                this.elements.scanPac().type(`${orderNum}{enter}`)
+                });
+                break;
+
+            case "E2EUAT":
+                cy.readFile('cypress/fixtures/orderNum.json').then(({ orderNum }) => {
+                cy.log('El número de orden es: ', orderNum);
+                this.elements.scanPac().type(`${orderNum}{enter}`)
+                 });
+                break;
         }
-        cy.wait(1000);
-        
-        
-
-    }
-
-    inductionSortingP99(){
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdP99')
-            
-        for (var i = 0; i < guias.length; i++) {
-        this.elements.scanPac().type(`${guias[i]}{enter}`)
-        cy.wait('@IdP99')
-            .its('response.body.data.induct.order.route.hasP99Coverage')
-            .then(response => {cy.wrap(response).should('equal', true)})
-    }
-        cy.wait(1000);       
-
-    }
-    inductionToWarehouse(station, numOrder){
-        cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')
-        this.elements.closeBanner().click();
-        this.elements.currentBtnStation().click();
-        cy.wait(1000)
-        this.elements.inputStation().type(`${station}`)
-        this.elements.firstOptionInput().click();
-        this.elements.btnChangeStation().click();
-        this.elements.btnConfirmChangeStation().click();
-        this.elements.station().should('have.text',station)
     }
 }
 export default new InductionPage();

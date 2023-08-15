@@ -1,3 +1,12 @@
+//Omitir Error
+const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/
+Cypress.on('uncaught:exception', (err) => {
+    /* returning false here prevents Cypress from failing the test */
+    if (resizeObserverLoopErrRe.test(err.message)) {
+        return false
+    }
+})
+//Omitir Error
 import {
     Given,
     When,
@@ -5,30 +14,27 @@ import {
 } from "@badeball/cypress-cucumber-preprocessor"
 
 const shippingPage = require("../pages/ShippingPage").default;
-const loginSSPage = require("../pages/LoginPage").default;
-const homeSSPage = require("../pages/HomePage").default;
+const loginPage = require("../pages/LoginShippingPage").default;
 
-Given("A user login in Self-Services web page with credentials {string} {string} {string}", (organization, user, pwd) => {
-    loginSSPage.openWebPage(organization);
-    loginSSPage.login(user, pwd);
+Given("user open 3Clics web page {string} {string} {string}", (enviroment, userName, password) => {
+    loginPage.openWebPage(enviroment);
+    loginPage.login(userName, password);
+});
+When("the user enters shipments and adds the data of {string} {string} {string} {string} {string} {string} {string}", (recolecction, typerecolecction, referenceRecolecction, referenceDelivery, delivery, packageSize, shipmentType) => {
+    shippingPage.recolecction(recolecction);
+    shippingPage.typerecolecction(typerecolecction, referenceRecolecction, referenceDelivery, delivery);
+    shippingPage.packageSize(packageSize);
+    shippingPage.shipmentType(shipmentType);
+
+});
+Then("the user adding receiving person data {string} {string} {string} {string} {string}", (nameReceiver, phoneNumber, email, cod, codValue) => {
+    shippingPage.receiver(nameReceiver, phoneNumber, email);
+    shippingPage.cod(cod, codValue);
+
 });
 
-When("the user make shipment introducing {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string} {string}",
-    (shippingType, locationRecollect, typeOfHousing, reference, shippingWeight, schedule, nameThatRecollect, phoneThatRecollect,emailThatRecollect, locationReceives, typeOfHousingReceives, nameThatReceives, phoneThatReceives, emailThatReceives, referenceReceives, cod) => {
-        homeSSPage.makeAShipment();
-        shippingPage.shippingType(shippingType);
-        shippingPage.recollectData(locationRecollect, typeOfHousing, reference);
-        shippingPage.shippingWeight(shippingWeight);
-        shippingPage.whenWePassed(schedule);
-        shippingPage.userDataThatRecolelct(nameThatRecollect, phoneThatRecollect, emailThatRecollect);
-        shippingPage.userDataThatReceives(locationReceives, typeOfHousingReceives, nameThatReceives, phoneThatReceives, emailThatReceives, referenceReceives);
-        shippingPage.cod(cod);
-        shippingPage.aditional();
-        
-    });
+Then("the user select additional Services {string} {string} {string}", (ecoGuia, assurance, valueAssurence,orderNum) => {
+    shippingPage.additionalServices(ecoGuia, assurance, valueAssurence);
+    shippingPage.ongoing(orderNum);
 
-Then("the user print the shipping guide", () => {
-    shippingPage.confirmedPackage();
-})
-
-
+});

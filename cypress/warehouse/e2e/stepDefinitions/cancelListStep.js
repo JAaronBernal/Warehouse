@@ -4,8 +4,8 @@ import {
 } from "@badeball/cypress-cucumber-preprocessor"
 
 const loginPage = require("../pages/LoginPage").default;
-const cancelEverything = require("../pages/CancelEverythingPage").default;
-const homePage = require("../pages/HomePage").default;
+const cancelEverything = require("../pages/CancelPage").default;
+
 
 //Omitir Error
 const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/
@@ -17,12 +17,12 @@ Cypress.on('uncaught:exception', (err) => {
 })
 //Omitir Error
 
-Given("The user login in SelfService {string} {string} {string}", (organization, user, pwd) => {
-    loginPage.openWebPage(organization);
-    loginPage.login(user, pwd);
-    homePage.cancelEverything();
+Given("The user login in 3Clics {string} {string} {string}", (enviroment, userName, password) => {
+    loginPage.openWebPage(enviroment);
+    loginPage.login(userName, password);
+
 });
 
-When("The user does a cancel with a list", () => {
-    cancelEverything.cancellPerList();
+When("The user does a cancel with a list {string}", (environment) => {
+    cancelEverything.cancell(environment);
 });

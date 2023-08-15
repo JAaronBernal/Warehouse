@@ -3,11 +3,11 @@ Feature: Induction
   Scenario Outline: Success on induction
     Given A user open the induction page in "<environment>" selected 
     When the user must be at the selected "<station>"
-    Then user should induction a "<numOrder>"
+    Then user should induction "<environment>"
 
     Examples: 
-      |environment | station|numOrder  | 
-      |Test        | MX4    |NA        |
+      |environment    | station|
+      |E2ETest        | MX5    |
 
 
 

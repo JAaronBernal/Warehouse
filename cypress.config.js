@@ -27,8 +27,8 @@ module.exports = defineConfig({
     },
 
     // ruta donde tenemos los archivos features 
-    //specPattern: "cypress/Ruta99/e2e/features/*.feature",
     specPattern: "cypress/Warehouse/e2e/features/*.feature",
+    //specPattern: "cypress/Warehouse/e2e/features/3.-warehouseS.feature",
     // Pagina por default
     viewportWidth: 1400,
     viewportHeight: 900,
@@ -38,6 +38,6 @@ module.exports = defineConfig({
     //Tiempo de espera en respuesta de cada acción,
     //ruta99 lo utilza a 300000 para su optimización
     //defaultCommandTimeout: 300000,
-    defaultCommandTimeout: 45000,
+    defaultCommandTimeout: 60000,
   },
 });

@@ -1,4 +1,5 @@
 import { guias } from './guias.js';
+import { guiasT } from './guiasT.js';
 class WarehousePage {
     elements = {
         wait1seg: () => cy.wait(1000),
@@ -30,10 +31,8 @@ class WarehousePage {
         //reedit
         reEditThisLineHaul: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
         reEditIdVehicle: () =>cy.get('#vehicleLicencePlates'),
-        //reEditTypeDet: () => cy.get('.css-w7zgc7 > .MuiFormControl-root > .MuiInputBase-root'),
         reEditTypeDet: () => cy.get('#location-autocomplete'),
         reEditSelctFirtOption: () => cy.get('#location-autocomplete-listbox'),
-        //reEditDriver: () => cy.get('.css-og3as7 > .MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'),
         reEditDriver: () => cy.xpath('//*[@id=":rg:"]'),
         reEditCloseBtn: () => cy.get('.css-1l89mu2 > .MuiButton-outlined'),
         reEditEditBt: () => cy.get('.css-1l89mu2 > .MuiButton-contained'),
@@ -53,9 +52,6 @@ class WarehousePage {
         letOutCommentType: () => cy.get('.css-1k7a714 > .MuiFormControl-root > .MuiInputBase-root'),
         letOutCommentConfirm: () => cy.get('#accept-button'),
         letOutCommentCancel: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-outlined'),
-
-
-
         deletThisLineHaul: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
         editThisLineHaul: () => cy.get('.MuiList-root > [tabindex="-1"]'),
         editNameLineHaul: ()=>cy.get('#platformName'),
@@ -68,8 +64,7 @@ class WarehousePage {
         btnRegistNewVehicle: () => cy.get('.css-ekpfb0 > .MuiButtonBase-root'),
         btnRegistNewVehicleTemp: () => cy.get(':nth-child(4) > .css-10b2cka > .MuiStack-root > .css-ekpfb0 > .MuiButtonBase-root'),
         typeNewDriver: () => cy.get('.MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root'),
-        //driverId0: () => cy.get('#driver-select-option-0'),
-        driverId0: () => cy.xpath('//*[@id=":r5:-option-0"]'),
+        driverId0: () => cy.get('#\\:r7\\:-listbox'),
         driverWId0: () => cy.xpath('//*[@id=":r7:-option-0"]'),
 
         typeIdVehicle: () => cy.get('#new-linehaul'),
@@ -77,12 +72,9 @@ class WarehousePage {
         confirmRegDriver: () => cy.get('.css-1l89mu2 > .MuiButton-contained'),
         contaninerClose: () => cy.get('.MuiTypography-caption'),
         //destination
-        //typeDest: () => cy.xpath('//*[@id="location-autocomplete"]'),
         typeDest: () => cy.get('#location-autocomplete'),
         locationOption0: () => cy.get('#location-autocomplete-option-0'),
-        typeDepartureTime: () => cy.xpath('//*[@id=":rc:"]'),
-        //typeDepartureTime: () => cy.get('body > div:nth-child(11) > div.MuiBox-root.css-kgv6uk > div.MuiBox-root.css-1k7a714 > div.MuiFormControl-root.MuiFormControl-fullWidth.MuiTextField-root.css-lne5w1 > div'),
-        //typeDepartureTime: () => cy.get('#unified-runner'),
+        typeDepartureTime: () => cy.get('#\\:rc\\:'),
         typeDepartureTimeLineHual: () => cy.xpath('//*[@id=":ra:"]'),
         cancelRegisDriverBtn: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-outlined'),
         confitRegisDriverBtn: () => cy.get('.css-1k7a714 > .MuiBox-root > .MuiButton-contained'),
@@ -145,632 +137,412 @@ class WarehousePage {
         btnCancelUF: () => cy.get('.css-1tcrf2f > .MuiButton-outlined'),
         btnConfirUF: () => cy.get('#accept-button'),
         assertDone: () => cy.get('.Toastify__toast-body'),
-        
+        //UAT
+        userEmail: () => cy.get('#i0116'),
+        userPwd: () => cy.get('#i0118'),
+        closeAssert33: () => cy.get('#\\33  > .Toastify__close-button'),
+        closeAssert34: () => cy.get('#\\34  > .Toastify__close-button'),
 
 
 
     };
     openWebPage(environment) {
         switch(environment) {
-            case "Prod":
-                cy.visit('https://warehouse-management-frontend-git-release-103-99minutos.vercel.app/');
+            case "UAT":
+                cy.visit('https://warehouse-management-frontend-uat.vercel.app/');
+                cy.wait(2500);
+                //this.elements.userEmailUat().should('be.visible').type(`qa@99minutos.com{enter}`);
+                //this.elements.userPwdUat().should('be.visible').type(`Logistics.99m{enter}`);
+
+                cy.origin(
+                    'login.microsoftonline.com',
+                    () => {
+                        cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
+                        log: false,})
+                        cy.wait(1500);
+                        cy.get('#i0118').type(`Logistics.99m{enter}`, {
+                            log: false,})
+                        cy.get('#idSIButton9').click();
+                }
+                )
+
                 break;
+
+            case "E2EUAT":
+                cy.visit('https://warehouse-management-frontend-uat.vercel.app/');
+                cy.wait(2500);
+                cy.origin(
+                    'login.microsoftonline.com',
+                    () => {
+                        cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
+                        log: false,})
+                        cy.wait(1500);
+                        cy.get('#i0118').type(`Logistics.99m{enter}`, {
+                            log: false,})
+                        cy.get('#idSIButton9').click();
+                    }
+                    )
+    
+                break;
+
             case "Test":
-                cy.visit('https://warehouse-management-frontend-git-release-103-99minutos.vercel.app/');
+                cy.visit('https://warehouse-management-frontend-test.vercel.app/line-haul');
+                cy.wait(2500);
+                //this.elements.userEmailUat().should('be.visible').type(`qa@99minutos.com{enter}`);
+                //this.elements.userPwdUat().should('be.visible').type(`Logistics.99m{enter}`);
+
+                cy.origin(
+                    'login.microsoftonline.com',
+                    () => {
+                        cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
+                        log: false,})
+                        cy.wait(1500);
+                        cy.get('#i0118').type(`Logistics.99m{enter}`, {
+                            log: false,})
+                        cy.get('#idSIButton9').click();
+                }
+                )
+
+                break;
+            case "E2ETest":
+                cy.visit('https://warehouse-management-frontend-test.vercel.app/line-haul');
+                cy.wait(2500);
+                cy.origin(
+                    'login.microsoftonline.com',
+                    () => {
+                        cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
+                        log: false,})
+                        cy.wait(1500);
+                        cy.get('#i0118').type(`Logistics.99m{enter}`, {
+                            log: false,})
+                        cy.get('#idSIButton9').click();
+                    }
+                    )
+    
                 break;
 
         }
 
     }
-
-    station(station) {
-        this.elements.userAvatar().click();
-        this.elements.changeStation().click();
-        this.elements.typeSelectStation().type(`${station}`)
-        this.elements.firstOptionStation().click();
-        this.elements.acceptChageStation().click();
-        this.elements.confirmStation().click();
-        this.elements.workInStation().should('have.text',station)
-    }
-
-    hamburgerBtn(){
-        this.elements.hamburgerBtn().click();
-    }
-    container(){
-        this.elements.btnContainers().click();
-    }
     loginWarehouse(station){
         this.elements.userAvatar().click();
         this.elements.changeStation().click();
         this.elements.typeSelectStation().type(`${station}`)
-        this.elements.firstOptionStation().click();
+        //cy.wait(2500);
+        //this.elements.firstOptionStation().click();
         this.elements.acceptChageStation().click();
         this.elements.confirmStation().click();
         this.elements.workInStation().should('have.text',station)
         this.elements.hamburgerBtn().click();
         this.elements.btnContainers().click();
     }
- 
+
     actLayout(layout){
         this.elements.hamburgerBtn().click();
         this.elements.btnModLayout().click();
-        //this.elements.btnLayoutDowload().click();
+        this.elements.btnLayoutDowload().click();
         this.elements.uploadfile().attachFile(layout, { subjectType: 'drag-n-drop' });
-        cy.wait(1000);
-        this.elements.btnConfirUF().click();
+        this.elements.btnConfirUF().should('be.visible').click();
         this.elements.assertDone().should('have.text', 'Se ha actualizado correctamente el layout del almacén' )
-        cy.wait(2000);
 
     }
-
-    createContainer(numContainer){
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('Api')
-        this.elements.hamburgerBtn().click();
-        this.elements.btnCreateContainers().click();
-        this.elements.btnContinueNoImp().click();
-        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
-        this.elements.btnAcceptCreateCon().click();
-        
-        //cy.wait('@Api').its('data.createContainers.containers[0].id')
-        cy.wait('@Api').then(response => {
-            cy.log(response)
-        })
-        
-
-        //cy.get('@Api').then(request => {  
-            //var idScan = request.response.body.data.loginFinger.id 
-        //cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input').type(`${idScan}`);
-        //})
-    }
-
-    addContainer(fingerID,){
-        cy.wait(2500);
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('Api')
-        this.elements.hamburgerBtn().click();
-        this.elements.btnContainers().click();
-        this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
-        this.elements.btnStartFingerId().click();
-        this.elements.btnPlusContainers().click();
-        //Suprim
-        //cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input').type(`8f231a6b-67aa-44b2-89f0-1413898c3ecd`);
-
-        //
-        
-        cy.wait('@Api').its('response.body.data.loginFinger.id') 
-        cy.get('@Api').then(request => {  
-            var idScan = request.response.body.data.loginFinger.id
-        cy.get('.css-3xkt66 > .MuiFormControl-root > .MuiInputBase-root > #scanner-input').type(`${idScan}`);
-        })
-        
-
-    
-    }
-
-    createAndAddContainer(numContainer,fingerID){
-        
-
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
-        this.elements.hamburgerBtn().click();
-        this.elements.btnCreateContainers().click();
-        this.elements.btnContinueNoImp().click();
-        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
-        this.elements.btnAcceptCreateCon().click();
-        cy.wait('@IdContainer')
-            .its('response.body.data.createContainers.containers[0].id')
-            .then(response => {cy.log(response)})  
-        cy.get('@IdContainer').then(request =>{
-            const idContainer = request.response.body.data.createContainers.containers[0].id
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnContainers().click();
-            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
-            this.elements.btnStartFingerId().click();
-            this.elements.btnPlusContainers().click();
-            this.elements.typeScanContainers().type(`${idContainer}`);
-            this.elements.btnConfirmAddContainer().click();
-            this.elements.closeBtn().click();
-
-
-        })
-    }
-
-    
-    createAndTranserContainer(numContainer,fingerID){
-
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
-        this.elements.hamburgerBtn().click();
-        this.elements.btnCreateContainers().click();
-        this.elements.btnContinueNoImp().click();
-        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
-        this.elements.btnAcceptCreateCon().click();
-        cy.wait('@IdContainer')
-            .its('response.body.data.createContainers.containers[0].id')
-            .then(response => {cy.log(response)})  
-        cy.get('@IdContainer').then(request =>{
-            const idContainer = request.response.body.data.createContainers.containers[0].id
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnContainers().click();
-            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
-            this.elements.btnStartFingerId().click();
-            this.elements.btnPlusContainers().click();
-            this.elements.typeScanContainers().type(`${idContainer}`);
-            this.elements.btnConfirmAddContainer().click();
-
-
-        })
-    }
-
-    addLineHaul(lineHaul){
-        this.elements.hamburgerBtn().click();
-        this.elements.btnLineHaul().click();
-        this.elements.btnNewlineHaul().click();
-        this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}`);
-        this.elements.addCreateLineHaul().click();
-
-    }
-
     deletLineHaul(){
-        this.elements.hamburgerBtn().click();
+        this.elements.hamburgerBtn().should('be.visible').click();
         this.elements.btnLineHaul().click();
-        cy.wait(1000);
-        this.elements.btnOpcionInLH().click();
+        this.elements.btnOpcionInLH().should('be.visible').click();
         this.elements.deletThisLineHaulTemp().click();
         this.elements.btnDeletTheLineHaul().click();
     }
-    editLineHaulEmpty(newNameLineHaul){
-        this.elements.hamburgerBtn().click();
-        this.elements.btnLineHaul().click();
-        this.elements.btnOpcionInLH().click();
-        this.elements.editThisLineHaul().click();
-        this.elements.editNameLineHaul().type(`{selectAll}{backspace}${newNameLineHaul}`);
-        this.elements.btnEditConfirm().click();
+   
+    assignContainerInLineHaulStress(environment,numContainer,fingerID,lineHaul,driver,idVehicle,destination){
 
-    }
+        switch(environment) {
+            case "UAT":
+                cy.intercept('POST', 'https://inductionx.99minutos.com/api').as('IdContainer')
+                this.elements.hamburgerBtn().click();
+                this.elements.btnCreateContainers().click();
+                this.elements.btnContinueNoImp().click();
+                this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+                cy.wait(3500)
+                this.elements.btnAcceptCreateCon().click();
+                cy.wait(1500)
+                cy.wait('@IdContainer')
+                    .its('response.body.data.createContainers.containers[0].id')
+                    .then(response => {cy.log(response)})  
+                cy.get('@IdContainer').then(request =>{
 
-    regisVehicle(driver,idVehicle,destination,destination2,depTime){
-        this.elements.hamburgerBtn().click();
-        this.elements.btnLineHaul().click();
-        this.elements.btnRegistNewVehicle().click();
-        this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
-        this.elements.driverId0().should('be.visible').click();
-        this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
-        this.elements.confirmRegDriver().click();
-        this.elements.typeDest().type(`${destination}`);
-        this.elements.locationOption0().click();
-        this.elements.typeDest().type(`${destination2}{enter}`);
-        this.elements.locationOption0().click();
-        this.elements.typeDepartureTimeLineHual().type(`2023-06-15T16:00`);
-        this.elements.confitRegisDriverBtn().click();
-
-        
-    }
-    reEditLineHaul(reEditName,reEditIdVehicle,reDest1,reEditDriver){
-        this.elements.hamburgerBtn().click();
-        this.elements.btnLineHaul().click();
-        this.elements.btnOpcionInLH().click();
-        this.elements.reEditThisLineHaul().click();
-        this.elements.editNameLineHaul().type(`{selectAll}{backspace}${reEditName}`);
-        this.elements.reEditIdVehicle().type(`{selectAll}{backspace}${reEditIdVehicle}`);
-        this.elements.reEditTypeDet().type(`{selectAll}{backspace}${reDest1}`);
-        this.elements.reEditSelctFirtOption().click();
-        this.elements.reEditDriver().type(`{selectAll}{backspace}${reEditDriver}{enter}`);
-        //this.elements.driverId0().should('be.visible').click();
-        this.elements.reEditEditBt().click();
-
-    }
-
-    cleanLineHaul(){
-        this.elements.hamburgerBtn().click();
-        this.elements.btnLineHaul().click();
-        cy.wait(3500);
-        this.elements.btnOpcionInLH().click();
-        this.elements.cleanLineHaul().click();
-        this.elements.confirmCleanBtn().click();
-    }
+                    this.elements.hamburgerBtn().click();
+                    this.elements.btnContainers().click();
+                    this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
+                    this.elements.btnStartFingerId().click();
 
 
-    createAddTransferContainer(numContainer,TransferPack,fingerID,orderID){
-        
+                    this.elements.btnPlusContainers().should('be.visible').click();
+                    const idContainer = request.response.body.data.createContainers.containers[0].id
+                    this.elements.typeScanContainers().type(`${idContainer}`);
+                    this.elements.btnConfirmAddContainer().click();
+                    cy.wait(1500)
+                    
+                    //console.log(guias);
+                    for (var i = 0; i < guias.length; i++) {
+                    this.elements.typeOrderID().type(`${guias[i]}{enter}`);
+                    cy.wait(500)
+                    }
 
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
-        this.elements.hamburgerBtn().click();
-        this.elements.btnCreateContainers().click();
-        this.elements.btnContinueNoImp().click();
-        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
-        this.elements.btnAcceptCreateCon().click();
-        cy.wait('@IdContainer')
-            //.its('response.data.createContainers.containers[0].id')
-            .its('response.body.data.createContainers.containers[0].id')
-            .then(response => {cy.log(response)})  
-        cy.get('@IdContainer').then(request =>{
+                    this.elements.containerLongBtn().should('be.visible').click();
+                    this.elements.closeContainer().click();
+                    this.elements.confirmCloseContainer().click();
 
-            this.elements.hamburgerBtn().click();
-            cy.wait(1500);
-            this.elements.btnContainers().click();
-            cy.wait(1500);
-            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
-            this.elements.btnStartFingerId().click();
+                    
+                    //Linehaul
+                    this.elements.hamburgerBtn().should('be.visible').click();
+                    this.elements.btnLineHaul().click();
+                    this.elements.btnNewlineHaul().click();
+                    this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
+                    this.elements.addCreateLineHaul().click();
 
-            switch (TransferPack){
-
-                case "NA":
-                this.elements.btnPlusContainers().click();
-                const idContainer = request.response.body.data.createContainers.containers[0].id
-                this.elements.typeScanContainers().type(`${idContainer}`);
-                this.elements.btnConfirmAddContainer().click();
-                cy.wait(2500)
-                this.elements.typeOrderID().type(`${orderID}{enter}`);
+                    //LineHaul
+                    this.elements.hamburgerBtn().should('be.visible').click();
+                    this.elements.btnLineHaul().click();
+                    this.elements.btnRegistNewVehicle().click();
+                    this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
+                    this.elements.driverId0().should('be.visible').click();
+                    this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
+                    this.elements.confirmRegDriver().click();
+                    this.elements.typeDest().type(`${destination}{enter}`);
+                    this.elements.locationOption0().click();
+                    //Date
+                    const currentDate = new Date();
+                    const formattedDate = currentDate.toISOString().slice(0, 19);
+                    console.log(formattedDate);
+                    this.elements.closeAssert33().should('be.visible').click();
+                    this.elements.closeAssert34().should('be.visible').click();
+                    this.elements.typeDepartureTime().type(`${formattedDate}`);
+                    this.elements.confitRegisDriverBtn().click();
+                    this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
+                    cy.wait(5001)
+                    this.elements.letOutLineHaul().click();
+                    this.elements.letOutConfirmBtn().click();
+                    this.elements.letOutCommentType().type('Test')
+                    this.elements.letOutCommentConfirm().click();
+                    })
                 break;
-                
-                case "2":
-                this.elements.btnPlusContainers().click();
-                const idContainer_a0 = request.response.body.data.createContainers.containers[0].id
-                this.elements.typeScanContainers().type(`${idContainer_a0}`);
-                this.elements.btnConfirmAddContainer().click();
+            case "E2EUAT":
+                //Agregar Num order
+                cy.intercept('POST', 'https://inductionx.99minutos.com/api').as('IdContainer')
+                this.elements.hamburgerBtn().click();
+                this.elements.btnCreateContainers().click();
+                this.elements.btnContinueNoImp().click();
+                this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+                cy.wait(3500)
+                this.elements.btnAcceptCreateCon().click();
+                cy.wait(1500)
+                cy.wait('@IdContainer')
+                    .its('response.body.data.createContainers.containers[0].id')
+                    .then(response => {cy.log(response)})  
+                cy.get('@IdContainer').then(request =>{
 
-
-                this.elements.btnPlusContainers().click();
-                var sustContainer = TransferPack-1
-                const idContainer_a1 = request.response.body.data.createContainers.containers[sustContainer].id
-                this.elements.typeScanContainers().type(`${idContainer_a1}`);
-                this.elements.btnConfirmAddContainer().click();
-                cy.wait(2500)
-                this.elements.toggleBtnContainer2().click();
-
-                cy.wait(2500)
-                this.elements.typeOrderID().type(`${orderID}{enter}`);
-
-                //Transfer from container 2 to container 1
-                // this.elements.wait1seg();
-                // this.elements.containerLongBtn2().click();
-                // this.elements.transferPack().click();
-                // this.elements.typeIdContainer().type(`${idContainer_a0}`);
-                // this.elements.confirmTransferPack().click();
-
-                //this.elements.toggleBtnContainer2Act().click();
-
-                //Transfer from container 1 to container 2
-                this.elements.wait1seg();
-                this.elements.containerLongBtn().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_a1}`);
-                this.elements.confirmTransferPack().click();
-
-                break;
-
-                case "3":
-                this.elements.btnPlusContainers().click();
-                const idContainer_b0 = request.response.body.data.createContainers.containers[0].id
-                this.elements.typeScanContainers().type(`${idContainer_b0}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                const idContainer_b1 = request.response.body.data.createContainers.containers[1].id
-                this.elements.typeScanContainers().type(`${idContainer_b1}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                var sustContainer = TransferPack-1
-                const idContainer_b2 = request.response.body.data.createContainers.containers[sustContainer].id
-                this.elements.typeScanContainers().type(`${idContainer_b2}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                cy.wait(2500)
-                this.elements.typeOrderID().type(`${orderID}{enter}`);
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn2().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_b0}`);
-                this.elements.confirmTransferPack().click();
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn3().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_b1}`);
-                this.elements.confirmTransferPack().click();
-                break;
-
-
-                case "4":
-                this.elements.btnPlusContainers().click();
-                const idContainer_c0 = request.response.body.data.createContainers.containers[0].id
-                this.elements.typeScanContainers().type(`${idContainer_c0}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                const idContainer_c1 = request.response.body.data.createContainers.containers[1].id
-                this.elements.typeScanContainers().type(`${idContainer_c1}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                const idContainer_c2 = request.response.body.data.createContainers.containers[2].id
-                this.elements.typeScanContainers().type(`${idContainer_c2}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                var sustContainer = TransferPack-1
-                const idContainer_c3 = request.response.body.data.createContainers.containers[sustContainer].id
-                this.elements.typeScanContainers().type(`${idContainer_c3}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                cy.wait(2500)
-                this.elements.typeOrderID().type(`${orderID}{enter}`);
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn4().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_c2}`);
-                this.elements.confirmTransferPack().click();
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn3().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_c1}`);
-                this.elements.confirmTransferPack().click();
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn2().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_c2}`);
-                this.elements.confirmTransferPack().click();
-                break;
-
-                case "5":
-                this.elements.btnPlusContainers().click();
-                const idContainer_d0 = request.response.body.data.createContainers.containers[0].id
-                this.elements.typeScanContainers().type(`${idContainer_d0}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                const idContainer_d1 = request.response.body.data.createContainers.containers[1].id
-                this.elements.typeScanContainers().type(`${idContainer_d1}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                const idContainer_d2 = request.response.body.data.createContainers.containers[2].id
-                this.elements.typeScanContainers().type(`${idContainer_d2}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                const idContainer_d3 = request.response.body.data.createContainers.containers[3].id
-                this.elements.typeScanContainers().type(`${idContainer_d3}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                this.elements.btnPlusContainers().click();
-                var sustContainer = TransferPack-1
-                const idContainer_d4 = request.response.body.data.createContainers.containers[sustContainer].id
-                this.elements.typeScanContainers().type(`${idContainer_d4}`);
-                this.elements.btnConfirmAddContainer().click();
-
-                cy.wait(2500)
-                this.elements.typeOrderID().type(`${orderID}{enter}`);
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_d1}`);
-                this.elements.confirmTransferPack().click();
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn2().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_d2}`);
-                this.elements.confirmTransferPack().click();
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn3().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_d3}`);
-                this.elements.confirmTransferPack().click();
-
-                this.elements.wait1seg();
-                this.elements.containerLongBtn4().click();
-                this.elements.transferPack().click();
-                this.elements.typeIdContainer().type(`${idContainer_d4}`);
-                this.elements.confirmTransferPack().click();
-                break;
-                
-
-            
-            }
-            
-
-        })
-    }
-
-    addOrder(secondOrderID){
+                    this.elements.hamburgerBtn().click();
+                    this.elements.btnContainers().click();
+                    this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
+                    this.elements.btnStartFingerId().click();
     
-        cy.wait(2500)
-        this.elements.typeOrderID().type(`${secondOrderID}{enter}`); 
-    }
-
-    descContainer(){
-        cy.wait(2500)
-        this.elements.toggleBtnContainer().click();
-    }
-
-    actContainer(){
-        cy.wait(2500)
-        this.elements.toggleBtnContainerAct().click();
-    }
-
-    closeContainer(){
-        this.elements.containerLongBtn().click();
-        this.elements.closeContainer().click();
-        this.elements.confirmCloseContainer().click();
-    }
-
-
-    assignContainerInLineHaul(numContainer,fingerID,orderID,lineHaul,driver,idVehicle,destination,destination2,depTime){
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
-        this.elements.hamburgerBtn().click();
-        this.elements.btnCreateContainers().click();
-        this.elements.btnContinueNoImp().click();
-        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
-        this.elements.btnAcceptCreateCon().click();
-        cy.wait(2500)
-        cy.wait('@IdContainer')
-            .its('response.body.data.createContainers.containers[0].id')
-            .then(response => {cy.log(response)})  
-        cy.get('@IdContainer').then(request =>{
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnContainers().click();
-            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
-            this.elements.btnStartFingerId().click();
-            cy.wait(2500)
-
-            this.elements.btnPlusContainers().click();
-            const idContainer = request.response.body.data.createContainers.containers[0].id
-            this.elements.typeScanContainers().type(`${idContainer}`);
-            this.elements.btnConfirmAddContainer().click();
-            cy.wait(2500)                
-            this.elements.typeOrderID().type(`${orderID}{enter}`);
-            cy.wait(2500)
-            this.elements.containerLongBtn().click();
-            this.elements.closeContainer().click();
-            this.elements.confirmCloseContainer().click();
-            cy.wait(2500)
-            
-
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnLineHaul().click();
-            this.elements.btnNewlineHaul().click();
-            this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
-            this.elements.addCreateLineHaul().click();
-            cy.wait(2500)
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnLineHaul().click();
-            this.elements.btnRegistNewVehicle().click();
-            this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
-            this.elements.driverWId0().should('be.visible').click();
-            this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
-            this.elements.confirmRegDriver().click();
-            this.elements.typeDest().type(`${destination}`);
-            this.elements.locationOption0().click();
-            this.elements.typeDest().type(`${destination2}{enter}`);
-            this.elements.locationOption0().click();
-            this.elements.typeDepartureTime().type('2023-06-17T17:30');
-            this.elements.confitRegisDriverBtn().click();
-            this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
-            cy.wait(2500)
-            this.elements.letOutLineHaul().click();
-            this.elements.letOutConfirmBtn().click();
-            this.elements.letOutCommentType().type('Test')
-            this.elements.letOutCommentConfirm().click();
-
-        })
-    }
-
-
     
-    assignContainerInLineHaulStress(numContainer,fingerID,orderID,lineHaul,driver,idVehicle,destination,destination2,depTime){
+                    this.elements.btnPlusContainers().should('be.visible').click();
+                    const idContainer = request.response.body.data.createContainers.containers[0].id
+                    this.elements.typeScanContainers().type(`${idContainer}`);
+                    this.elements.btnConfirmAddContainer().click();
+                    cy.wait(1500)
+                        
+                        //console.log(guias);
+                    for (var i = 0; i < guias.length; i++) {
+                    this.elements.typeOrderID().type(`${guias[i]}{enter}`);
+                    cy.wait(500)
+                    }
+    
+                    this.elements.containerLongBtn().should('be.visible').click();
+                    this.elements.closeContainer().click();
+                    this.elements.confirmCloseContainer().click();
+    
+                        
+                    //Linehaul
+                    this.elements.hamburgerBtn().should('be.visible').click();
+                    this.elements.btnLineHaul().click();
+                    this.elements.btnNewlineHaul().click();
+                    this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
+                    this.elements.addCreateLineHaul().click();
+    
+                    //LineHaul
+                    this.elements.hamburgerBtn().should('be.visible').click();
+                    this.elements.btnLineHaul().click();
+                    this.elements.btnRegistNewVehicle().click();
+                    this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
+                    this.elements.driverId0().should('be.visible').click();
+                    this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
+                    this.elements.confirmRegDriver().click();
+                    this.elements.typeDest().type(`${destination}{enter}`);
+                    this.elements.locationOption0().click();
+                        //Date
+                    const currentDate = new Date();
+                    const formattedDate = currentDate.toISOString().slice(0, 19);
+                    console.log(formattedDate);
+                    this.elements.closeAssert33().should('be.visible').click();
+                    this.elements.closeAssert34().should('be.visible').click();
+                    this.elements.typeDepartureTime().type(`${formattedDate}`);
+                    this.elements.confitRegisDriverBtn().click();
+                    this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
+                    cy.wait(5001)
+                    this.elements.letOutLineHaul().click();
+                    this.elements.letOutConfirmBtn().click();
+                    this.elements.letOutCommentType().type('Test')
+                    this.elements.letOutCommentConfirm().click();
+                    })
+                break;
+
+            case "Test":
+                cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainerT')
+                this.elements.hamburgerBtn().click();
+                this.elements.btnCreateContainers().click();
+                this.elements.btnContinueNoImp().click();
+                this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+                cy.wait(3500)
+                this.elements.btnAcceptCreateCon().click();
+                cy.wait(1500)
+                cy.wait('@IdContainerT')
+                    .its('response.body.data.createContainers.containers[0].id')
+                    .then(response => {cy.log(response)})  
+                cy.get('@IdContainerT').then(request =>{
+    
+                    this.elements.hamburgerBtn().click();
+                    this.elements.btnContainers().click();
+                    this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
+                    this.elements.btnStartFingerId().click();
+    
+    
+                    this.elements.btnPlusContainers().should('be.visible').click();
+                    const IdContainerT = request.response.body.data.createContainers.containers[0].id
+                    this.elements.typeScanContainers().type(`${IdContainerT}`);
+                    this.elements.btnConfirmAddContainer().click();
+                    cy.wait(1500)
+                        
+                    //console.log(guias);
+                    for (var i = 0; i < guiasT.length; i++) {
+                    this.elements.typeOrderID().type(`${guiasT[i]}{enter}`);
+                    cy.wait(500)
+                    }
+    
+                    this.elements.containerLongBtn().should('be.visible').click();
+                    this.elements.closeContainer().click();
+                    this.elements.confirmCloseContainer().click();
+    
+                        
+                    //Linehaul
+                    this.elements.hamburgerBtn().should('be.visible').click();
+                    this.elements.btnLineHaul().click();
+                    this.elements.btnNewlineHaul().click();
+                    this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
+                    this.elements.addCreateLineHaul().click();
+
+                    this.elements.hamburgerBtn().should('be.visible').click();
+                    this.elements.btnLineHaul().click();
+                    this.elements.btnRegistNewVehicle().click();
+                    this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
+                    this.elements.driverId0().should('be.visible').click();
+                    this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
+                    this.elements.confirmRegDriver().click();
+                    this.elements.typeDest().type(`${destination}{enter}`);
+                    this.elements.locationOption0().click();
+                    //Date
+                    const currentDate = new Date();
+                    const formattedDate = currentDate.toISOString().slice(0, 19);
+                    console.log(formattedDate);
+                    this.elements.closeAssert33().should('be.visible').click();
+                    this.elements.closeAssert34().should('be.visible').click();
+                    this.elements.typeDepartureTime().type(`${formattedDate}`);
+                    this.elements.confitRegisDriverBtn().click();
+                    this.elements.scanContainerLineHaul().type(`${IdContainerT}{enter}`);
+                    cy.wait(5001)
+                    this.elements.letOutLineHaul().click();
+                    this.elements.letOutConfirmBtn().click();
+                    this.elements.letOutCommentType().type('Test')
+                    this.elements.letOutCommentConfirm().click();
+                     })
+                break;
+
+            case "E2ETest":
+                cy.readFile('cypress/fixtures/orderNum.json').then(({ orderNum }) => {
+                    cy.log('El número de orden es: ', orderNum);
+                    cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainerT')
+                    this.elements.hamburgerBtn().click();
+                    this.elements.btnCreateContainers().click();
+                    this.elements.btnContinueNoImp().click();
+                    this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+                    this.elements.btnAcceptCreateCon().click();
+                    cy.wait(1500)
+                    //data.createContainers.containers[0].id
+                    //body.data.createContainers.containers[0].id
+                    cy.wait('@IdContainerT')
+                        .its('response.body.data.createContainers.containers[0].id')
+                        .then(response => {cy.log(response)})  
+                    cy.get('@IdContainerT').then(request =>{
+                        
+                        this.elements.hamburgerBtn().click();
+                        this.elements.btnContainers().click();
+                        this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
+                        this.elements.btnStartFingerId().click();
         
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
-        this.elements.hamburgerBtn().click();
-        this.elements.btnCreateContainers().click();
-        this.elements.btnContinueNoImp().click();
-        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
-        this.elements.btnAcceptCreateCon().click();
-        cy.wait(1500)
-        cy.wait('@IdContainer')
-            .its('response.body.data.createContainers.containers[0].id')
-            .then(response => {cy.log(response)})  
-        cy.get('@IdContainer').then(request =>{
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnContainers().click();
-            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
-            this.elements.btnStartFingerId().click();
-            cy.wait(1000)
-
-            this.elements.btnPlusContainers().click();
-            const idContainer = request.response.body.data.createContainers.containers[0].id
-            this.elements.typeScanContainers().type(`${idContainer}`);
-            this.elements.btnConfirmAddContainer().click();
-            cy.wait(1500)
+        
+                        this.elements.btnPlusContainers().should('be.visible').click();
+                        const IdContainerT = request.response.body.data.createContainers.containers[0].id
+                        this.elements.typeScanContainers().type(`${IdContainerT}`);
+                        this.elements.btnConfirmAddContainer().click();
+                        cy.wait(1500)
+                        
+                        //Adding order num to e2e
+                        this.elements.typeOrderID().type(`${orderNum}{enter}`);
+                        this.elements.containerLongBtn().should('be.visible').click();
+                        this.elements.closeContainer().click();
+                        this.elements.confirmCloseContainer().click();
             
-            //console.log(guias);
-            for (var i = 0; i < guias.length; i++) {
-            this.elements.typeOrderID().type(`${guias[i]}{enter}`);
-            cy.wait(500)
+                                
+                            //Linehaul
+                        this.elements.hamburgerBtn().should('be.visible').click();
+                        this.elements.btnLineHaul().click();
+                        this.elements.btnNewlineHaul().click();
+                        this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
+                        this.elements.addCreateLineHaul().click();
+        
+                        this.elements.hamburgerBtn().should('be.visible').click();
+                        this.elements.btnLineHaul().click();
+                        this.elements.btnRegistNewVehicle().click();
+                        this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
+                        this.elements.driverId0().should('be.visible').click();
+                        this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
+                        this.elements.confirmRegDriver().click();
+                        this.elements.typeDest().type(`${destination}{enter}`);
+                        this.elements.locationOption0().click();
+                            //Date
+                        const currentDate = new Date();
+                        const formattedDate = currentDate.toISOString().slice(0, 19);
+                        console.log(formattedDate);
+                        this.elements.closeAssert33().should('be.visible').click();
+                        //this.elements.closeAssert34().should('be.visible').click();
+                        this.elements.typeDepartureTime().type(`${formattedDate}`);
+                        this.elements.confitRegisDriverBtn().click();
+                        this.elements.scanContainerLineHaul().type(`${IdContainerT}{enter}`);
+                        cy.wait(5001)
+                        this.elements.letOutLineHaul().click();
+                        this.elements.letOutConfirmBtn().click();
+                        this.elements.letOutCommentType().type('Test')
+                        this.elements.letOutCommentConfirm().click();
+                        })
+                    });
+                break;
+
             }
-
-            this.elements.containerLongBtn().click();
-            this.elements.closeContainer().click();
-            this.elements.confirmCloseContainer().click();
-            cy.wait(1000)
-            
-
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnLineHaul().click();
-            this.elements.btnNewlineHaul().click();
-            this.elements.typeNewLineHaul().type(`{selectAll}{backspace}${lineHaul}${Math.floor(Math.random() * 10)}${Math.floor(Math.random() * 10)}`);
-            this.elements.addCreateLineHaul().click();
-            cy.wait(1000)
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnLineHaul().click();
-            this.elements.btnRegistNewVehicle().click();
-            this.elements.typeNewDriver().type(`{selectAll}{backspace}${driver}{enter}`);
-            this.elements.driverWId0().should('be.visible').click();
-            this.elements.typeIdVehicle().type(`{selectAll}{backspace}${idVehicle}`);
-            this.elements.confirmRegDriver().click();
-            this.elements.typeDest().type(`${destination}`);
-            this.elements.locationOption0().click();
-            this.elements.typeDest().type(`${destination2}{enter}`);
-            this.elements.locationOption0().click();
-            this.elements.typeDepartureTime().type('2023-06-18T17:30');
-            this.elements.confitRegisDriverBtn().click();
-            this.elements.scanContainerLineHaul().type(`${idContainer}{enter}`);
-            cy.wait(1000)
-            this.elements.letOutLineHaul().click();
-            this.elements.letOutConfirmBtn().click();
-            this.elements.letOutCommentType().type('Test')
-            this.elements.letOutCommentConfirm().click();
-            
-        })
-    }
-
-    createAddTransferContainerP99(numContainer,fingerID){
-        cy.intercept('POST', 'https://induction-bff-dev-qndxoltwga-uc.a.run.app/api').as('IdContainer')
-        this.elements.hamburgerBtn().click();
-        this.elements.btnCreateContainers().click();
-        this.elements.btnContinueNoImp().click();
-        this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
-        this.elements.btnAcceptCreateCon().click();
-        cy.wait(2500)
-        cy.wait('@IdContainer')
-            .its('response.body.data.createContainers.containers[0].id')
-            .then(response => {cy.log(response)})  
-        cy.get('@IdContainer').then(request =>{
-
-            this.elements.hamburgerBtn().click();
-            this.elements.btnContainers().click();
-            this.elements.typeFinger().type(`{selectAll}{backspace}${fingerID}`);
-            this.elements.btnStartFingerId().click();
-            cy.wait(2500)
-
-            this.elements.btnPlusContainers().click();
-            const idContainer = request.response.body.data.createContainers.containers[0].id
-            this.elements.typeScanContainers().type(`${idContainer}`);
-            this.elements.btnConfirmAddContainer().click();
-            cy.wait(2500)
-            
-            //console.log(guias);
-            for (var i = 0; i < guias.length; i++) {
-            this.elements.typeOrderID().type(`${guias[i]}{enter}`);
-            cy.wait(1000)
-            }
-        })
-    }
-
-
+//npx cypress run --record --key 54c01d1b-8a60-4be6-89a0-4dafd24be5e9
+    
+}
 }
 export default new WarehousePage();
 
