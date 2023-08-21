@@ -1,30 +1,33 @@
 const report = require('multiple-cucumber-html-reporter');
 
+const startTime = new Date();
+const endTime = new Date();
+
 report.generate({
-    jsonDir: "jsonlogs", // ** Path of the json file ** //
+    jsonDir: "jsonlogs",
     reportPath: ".reports/cucumber-htmlreport.html",
     displayDuration: true,
     durationInMS: false,
     displayReportTime: true,
     metadata: {
         browser: {
-            name: "Chrome",
-            version: "v109",
+            name: "chrome",
+            version: "XX",
         },
         device: "Local test machine",
         platform: {
-            name: "Windows",
-            version: "10",
+            name: "macOS",
+            version: "Ventura 13.4.1",
         },
     },
     customData: {
         title: 'Run info',
         data: [
-            {label: 'Project', value: 'Warehouse'},
-            {label: 'Release', value: '1.2.3'},
-            {label: 'Cycle', value: 'B11221.34321'},
-            {label: 'Execution Start Time', value: (new Date).getTime()},
-            {label: 'Execution End Time', value: (new Date).getTime()}
+            { label: 'Project', value: 'Warehouse' },
+            { label: 'Release', value: '1.0' },
+            { label: 'Test', value: 'E2E' },
+            { label: 'Execution Start Time', value: startTime.toLocaleString() },
+            { label: 'Execution End Time', value: endTime.toLocaleString() }
         ]
     }
 });

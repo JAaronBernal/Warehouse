@@ -24,6 +24,8 @@ module.exports = defineConfig({
       await addCucumberPreprocessorPlugin(on, config);
 
       return config;
+
+
     },
 
     // ruta donde tenemos los archivos features 
@@ -35,9 +37,10 @@ module.exports = defineConfig({
     chromeWebSecurity: false,
     //Tiempo en lo que espara para cargar la pagina
     pageLoadTimeout: 45000,
-    //Tiempo de espera en respuesta de cada acción,
-    //ruta99 lo utilza a 300000 para su optimización
-    //defaultCommandTimeout: 300000,
-    defaultCommandTimeout: 60000,
+    defaultCommandTimeout: 10000
+
+    
   },
 });
+
+

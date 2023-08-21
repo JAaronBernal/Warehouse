@@ -8,10 +8,14 @@ class WarehousePage {
         logOut: () => cy.get('.MuiPaper-root > .MuiList-root > [tabindex="0"]'),
         changeStation: () => cy.get('.MuiList-root > [tabindex="-1"]'),
         typeSelectStation: () => cy.get('.MuiInputBase-root'),
-        acceptChageStation: () => cy.get('.MuiBox-root > .MuiButton-contained'),
+        //acceptChageStation: () => cy.get('.MuiBox-root > .MuiButton-contained'),
+        acceptChageStation: () => cy.get('.css-dvxtzn > .MuiBox-root > .MuiButton-contained'),
         cancelChangeStation: () => cy.get('.MuiBox-root > .MuiButton-outlined'),
         firstOptionStation: () => cy.get('#autoCompleteStation-option-0'),
+        //firstOptionStation: () => cy.get('#autoCompleteStation-listbox > :nth-child(7)'),
         confirmStation: () => cy.get('#accept-button'),
+        //confirmStation: () => cy.get('.css-dvxtzn > .MuiBox-root > .MuiButton-contained'),
+
         cancelStation: () => cy.get('.MuiBox-root > .MuiButton-outlined'),
         //Hamburger
         hamburgerBtn: () => cy.get('.MuiIconButton-colorInherit'),
@@ -205,7 +209,16 @@ class WarehousePage {
 
                 break;
             case "E2ETest":
-                cy.visit('https://warehouse-management-frontend-test.vercel.app/line-haul');
+                cy.visit('https://warehouse-management-frontend-test.vercel.app/line-haul', {
+                    onBeforeLoad(win) {
+                      // Simula la geolocalización para la prueba 19.414104498386767, -99.05433128673353
+                      const latitude = 19.4141;
+                      const longitude = -99.0543;
+                      cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake(callback => {
+                        return callback({ coords: { latitude, longitude } });
+                      });
+                    },
+                  });
                 cy.wait(2500);
                 cy.origin(
                     'login.microsoftonline.com',
@@ -225,16 +238,17 @@ class WarehousePage {
 
     }
     loginWarehouse(station){
-        this.elements.userAvatar().click();
-        this.elements.changeStation().click();
+        this.elements.userAvatar().should('be.visible').click();
+        this.elements.changeStation().should('be.visible').click();
         this.elements.typeSelectStation().type(`${station}`)
-        //cy.wait(2500);
-        //this.elements.firstOptionStation().click();
-        this.elements.acceptChageStation().click();
-        this.elements.confirmStation().click();
+        cy.wait(1500)
+
+        this.elements.firstOptionStation().should('be.visible').click();
+        this.elements.acceptChageStation().should('be.visible').click();
+        this.elements.confirmStation().should('be.visible').click();
         this.elements.workInStation().should('have.text',station)
-        this.elements.hamburgerBtn().click();
-        this.elements.btnContainers().click();
+        this.elements.hamburgerBtn().should('be.visible').click();
+        this.elements.btnContainers().should('be.visible').click();
     }
 
     actLayout(layout){
@@ -477,10 +491,10 @@ class WarehousePage {
                     this.elements.btnCreateContainers().click();
                     this.elements.btnContinueNoImp().click();
                     this.elements.inputCreateContainer().type(`{selectAll}{backspace}${numContainer}`);
+                    cy.wait(3500)
                     this.elements.btnAcceptCreateCon().click();
-                    cy.wait(1500)
-                    //data.createContainers.containers[0].id
-                    //body.data.createContainers.containers[0].id
+                    //data.createContainers.containers[0].id 
+                    //response.body.data.createContainers.containers[0].id
                     cy.wait('@IdContainerT')
                         .its('response.body.data.createContainers.containers[0].id')
                         .then(response => {cy.log(response)})  

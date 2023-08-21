@@ -10,7 +10,7 @@ Given("A user open the inbound page in {string} selected", (environment) => {
     inboundPage.openWebPage(environment);
 });
 When("the user must be at the selected {string} to use inbound", (station) => {
-    //inboundPage.selectStation(station);
+    inboundPage.selectStation(station);
 });
 Then("user should use inbound with {string} {string} {string} {string} {string} {string} {string} {string} {string} {string}", (emailVeloz, nameVeloz, kindOfDriver, providerName, vehicleType, vehiclePlates, driverReasonNoQR, packageAmount, userActivity, stationOrigin) => {
     //inboundPage.login();
