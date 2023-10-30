@@ -208,30 +208,25 @@ class WarehousePage {
                 )
 
                 break;
-            case "E2ETest":
-                cy.visit('https://warehouse-management-frontend-test.vercel.app/line-haul', {
-                    onBeforeLoad(win) {
-                      // Simula la geolocalización para la prueba 19.414104498386767, -99.05433128673353
-                      const latitude = 19.4141;
-                      const longitude = -99.0543;
-                      cy.stub(win.navigator.geolocation, 'getCurrentPosition').callsFake(callback => {
-                        return callback({ coords: { latitude, longitude } });
-                      });
-                    },
-                  });
+            case "E2ETest": 
+                const tu_latitud = 19.4141;
+                const tu_longitud = -99.0543;
+                cy.intercept('**/geolocation*', { latitude: tu_latitud, longitude: tu_longitud }).as('geolocationRequest');
+                cy.visit('https://warehouse-management-frontend-test.vercel.app/line-haul');
                 cy.wait(2500);
                 cy.origin(
                     'login.microsoftonline.com',
                     () => {
                         cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
-                        log: false,})
+                            log: false,
+                        })
                         cy.wait(1500);
                         cy.get('#i0118').type(`Logistics.99m{enter}`, {
-                            log: false,})
+                            log: false,
+                        })
                         cy.get('#idSIButton9').click();
                     }
-                    )
-    
+                )
                 break;
 
         }
@@ -241,8 +236,7 @@ class WarehousePage {
         this.elements.userAvatar().should('be.visible').click();
         this.elements.changeStation().should('be.visible').click();
         this.elements.typeSelectStation().type(`${station}`)
-        cy.wait(1500)
-
+        cy.wait(5500)
         this.elements.firstOptionStation().should('be.visible').click();
         this.elements.acceptChageStation().should('be.visible').click();
         this.elements.confirmStation().should('be.visible').click();

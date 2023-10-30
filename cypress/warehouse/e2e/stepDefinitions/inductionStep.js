@@ -11,7 +11,7 @@ Given("A user open the induction page in {string} selected", (environment) => {
 });
 When("the user must be at the selected {string}", (station) => {
     inductionPage.bannerGeo();
-    //inductionPage.station(station);
+    inductionPage.station(station);
 });
 Then("user should induction {string}", (environment) => {
     inductionPage.inductionSorting(environment);

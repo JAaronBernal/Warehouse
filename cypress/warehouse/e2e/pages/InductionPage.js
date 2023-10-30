@@ -47,14 +47,53 @@ class InductionPage {
                 )
                 break;
             case "Test":
-                cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')
+                cy.visit('https://induction-sorting-console-test.vercel.app/')
+                cy.wait(2500);
+
+                cy.origin(
+                    'login.microsoftonline.com',
+                    () => {
+                        cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
+                        log: false,})
+                        cy.wait(1500);
+                        cy.get('#i0118').type(`Logistics.99m{enter}`, {
+                            log: false,})
+                        cy.get('#idSIButton9').click();
+                        }
+                )
                 break;
             case "E2ETest":
-                cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')
+                cy.visit('https://induction-sorting-console-test.vercel.app/')
+                cy.wait(2500);
+
+                cy.origin(
+                    'login.microsoftonline.com',
+                    () => {
+                        cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
+                        log: false,})
+                        cy.wait(1500);
+                        cy.get('#i0118').type(`Logistics.99m{enter}`, {
+                            log: false,})
+                        cy.get('#idSIButton9').click();
+                        }
+                )
                 break;
 
             case "E2EUAT":
-                cy.visit('https://induction-sorting-console-dw5uwc7ru-99minutos.vercel.app/')
+                cy.visit('https://induction-sorting-console-uat.vercel.app/')
+                cy.wait(2500);
+
+                cy.origin(
+                    'login.microsoftonline.com',
+                    () => {
+                        cy.get('#i0116').type(`qa@99minutos.com{enter}`, {
+                        log: false,})
+                        cy.wait(1500);
+                        cy.get('#i0118').type(`Logistics.99m{enter}`, {
+                            log: false,})
+                        cy.get('#idSIButton9').click();
+                        }
+                )
                 break;
         }
     }
